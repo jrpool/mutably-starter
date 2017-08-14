@@ -1,2 +1,8 @@
 /node_modules
 npm-debug.log
+
+# OS X system files
+.DS_Store
+
+# Developer notes
+private/
