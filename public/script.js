@@ -1,7 +1,12 @@
-console.log("Sanity Check: JS is working!");
+'use strict';
+
 
 $(document).ready(function(){
 
-  // code in here
-
+  $.ajax('http://mutably.herokuapp.com/books')
+  .done(data=> {
+    data.books.forEach(el=> {console.log(el);});
+    //console.log(data);
+  })
+  .fail(err => {console.error(err);});
 });
