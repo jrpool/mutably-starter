@@ -1,6 +1,6 @@
-let currentBook;
 $(document).ready(function(){
-  $(".1").click(function() {
+  let currentBook;
+  $(".generic").click(function() {
 
     //deleteOne("599236cdbc824300112668b3");
 
@@ -10,7 +10,7 @@ $(document).ready(function(){
 
     //getAll();
   });
-  $(".2").click(function() {
+  $(".specific").click(function() {
     updateOne("599362ca5113cf0011283334", 'title', 'Les Superhappy');
   });
   $(".3").click(function() {

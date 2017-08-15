@@ -1,23 +1,80 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Mutably front-end</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/style.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <script type="text/javascript" src="script.js"></script>
+    <title>Simple Book List</title>
+    <link type="text/css" rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link type="text/css" rel="stylesheet" href="../public/materialize.min.css"
+      media="screen,projection">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.2.1.js" defer></script>
+    <script type="text/javascript" src="../public/script.js" defer></script>
+    <script type="text/javascript" src="../public/materialize.min.js"
+      defer></script>
   </head>
-  <body class="container">
-    <div class="col-sm-8 col-sm-offset-2">
-      <nav class="navbar navbar-default">
-        <a class="navbar-brand" href="/">Mutably Front-end</a>
-      </nav>
-      <div class="panel panel-default">
-        <div class="panel-heading">[Your Chosen Resource]</div>
-        <ul class="list-group">
-          <!-- your resource items here -->
-        </ul>
-      </div>
-    </div>
+  <body>
+    <main>
+      <section class="generic">
+        <section class="title">
+          <h2 id="title"></h2>
+        </section>
+        <section class="intro">
+          <h4 id="intro"></h4>
+        </section>
+        <section class="controllers">
+          <div class="controller" id="controller-[action]">
+            <button class="generic"></button>
+            <span class="legend"></span>
+          </div>
+        </section>
+      </section>
+      <section id="list">
+        <div class="record" id="record-[id]">
+          <button class="specific" id="[action]-[id]"></button>
+          <span class="description"></span>
+        </div>
+      </section>
+      <section class="contingent">
+        <section class="invisible" id="make">
+          <div class="legend"></div>
+          <div id="make-[property]">[template-insertion]</div>
+          <div class="make-done">
+            <button class="specific"></button>
+          </div>
+        </section>
+        <section class="invisible" id="detail">
+          <div class="legend"></div>
+          <div id="detail-[property]">[template-insertion]</div>
+          <div class="detail-controllers">
+            <button class="specific" id="revise">[revise]</button>
+            <button class="specific invisible"
+              id="revise-submit-[id]">[revise-submit]</button>
+            <button
+              class="specific invisible" id="revise-revert">[revise-revert]</button>
+            <button class="specific" id="delete-[id]">[delete]</button>
+          </div>
+        </section>
+        <section class="invisible" id="template">
+          <span class="name">[name-property]</span>
+          <label>[label-property]
+            <span class="value">
+              <!--status = empty or readonly or required-->
+              <!--type = text or url or date-->
+              <input
+                name="[property]"
+                [status]
+                label="[label-property]"
+                type="[type]"
+                value=""
+                placeholder="[placeholder-property]"
+                size="0"
+                maxlength="0"
+              >
+            </span>
+          </label>
+        </section>
+      </section>
+    </main>
   </body>
 </html>
