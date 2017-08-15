@@ -1,23 +1,66 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Mutably front-end</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Simple Book List</title>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
     <link rel="stylesheet" type="text/css" href="/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <script type="text/javascript" src="script.js"></script>
   </head>
-  <body class="container">
-    <div class="col-sm-8 col-sm-offset-2">
-      <nav class="navbar navbar-default">
-        <a class="navbar-brand" href="/">Mutably Front-end</a>
-      </nav>
-      <div class="panel panel-default">
-        <div class="panel-heading">[Your Chosen Resource]</div>
-        <ul class="list-group">
-          <!-- your resource items here -->
-        </ul>
-      </div>
-    </div>
+  <body>
+    <main>
+      <section class="generic">
+        <section class="title">
+          <h2 id="title"></h2>
+        </section>
+        <section class="intro">
+          <h4 id="intro"></h4>
+        </section>
+        <section class="controllers">
+          <div class="controller" id="controller-[action]">
+            <button class="generic"></button>
+            <span class="legend"></span>
+          </div>
+        </section>
+      </section>
+      <section id="list">
+        <div class="record" id="record-[id]">
+          <button class="specific" id="[action]-[id]"></button>
+          <span class="description"></span>
+        </div>
+      </section>
+      <section class="contingent">
+        <section class="invisible" id="make">
+          <div class="legend"></div>
+          <div id="make-[property]">
+            <span class="name"></span>
+            <span class="value">
+              <input type="text" width="0" maxlength="0">
+            </span>
+          </div>
+          <div class="make-done">
+            <button class="specific"></button>
+          </div>
+        </section>
+        <section class="invisible" id="detail">
+          <div class="legend"></div>
+          <div id="detail-[property]">
+            <button class="specific">[revise-text]</button>
+            <span class="name"></span>
+            <span class="value"></span>
+          </div>
+          <div class="specific">
+            <button class="specific" id="delete-[index]"></button>
+          </div>
+        </section>
+        <section class="invisible" id="revise">
+          <div id="revise-legend"></div>
+          <div class="property" id="revise-[property]">
+            <span class="property-name"></span>
+            <span class="property-value" id="revise-value-[property]-[index]"></span>
+          </div>
+        </section>
+      </section>
+    </main>
   </body>
 </html>
