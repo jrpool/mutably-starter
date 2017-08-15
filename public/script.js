@@ -67,6 +67,8 @@ let updateOne = function(id, thingToUpdate, replacementValue) {
     method: 'get',
   })
   .done(data => {
+      //TODO: make currentBook the correct thing
+      const currentBook = data.dfadfd
     if(data === currentBook) {
 
     }
