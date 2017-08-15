@@ -65,24 +65,20 @@ $(document).ready(function(){
     })
     .done(bookFromServerAsObject => {
       //Object.entries is an array of arrays of keys and values for that obj
-      try {
-        let currentBookAsArrayToCompare = Object.entries(currentBook);
-        let bookFromServerAsArrayToCompare = Object.entries(bookFromServerAsObject);
-        if(currentBookAsArrayToCompare.toString() === bookFromServerAsArrayToCompare.toString()) {
-          currentBook[thingToUpdate] = replacementValue;
-          $.ajax({
-            url: `http://mutably.herokuapp.com/books/${id}`,
-            method: 'put',
-            data: currentBook
-          });
-          console.log(thingToUpdate + " was updated");
-        }
-        else {
-          $("#revalert").html("Uh-oh, looks like someone else changed something already. Take a look at what it says now.");
-          console.log("something's wrong");
-        }
-      } catch (error) {
-        console.error(error.message +"\n"+ error.stack);
+      let currentBookAsArrayToCompare = Object.entries(currentBook);
+      let bookFromServerAsArrayToCompare = Object.entries(bookFromServerAsObject);
+      if(currentBookAsArrayToCompare.toString() === bookFromServerAsArrayToCompare.toString()) {
+        currentBook[thingToUpdate] = replacementValue;
+        $.ajax({
+          url: `http://mutably.herokuapp.com/books/${id}`,
+          method: 'put',
+          data: currentBook
+        });
+        console.log(thingToUpdate + " was updated");
+      }
+      else {
+        $("#revalert").html("Uh-oh, looks like someone else changed something already. Take a look at what it says now.");
+        console.log("something's wrong");
       }
     })
     .fail(err => {
