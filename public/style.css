@@ -3,8 +3,17 @@
   src:
     local('Roboto'),url(),
     local('Roboto-Regular'),
-    url('/fonts/roboto/Roboto-Regular.woff') format('woff'),
-    url('/fonts/roboto/Roboto-Regular.woff2') format('woff2');
+    url('fonts/roboto/Roboto-Regular.woff') format('woff'),
+    url('fonts/roboto/Roboto-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src:
+    local('Roboto Bold'),url(),
+    local('Roboto-Bold'),
+    url('fonts/roboto/Roboto-Bold.woff') format('woff'),
+    url('fonts/roboto/Roboto-Bold.woff2') format('woff2');
 }
 
 * {
