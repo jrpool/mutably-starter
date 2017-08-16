@@ -1,4 +1,8 @@
-@font-face {
+html {
+  font-family: GillSans, Calibri, Trebuchet, Helvetica, sans-serif;
+}
+
+/*@font-face {
   font-family: 'Roboto';
   src:
     local('Roboto'),url(),
@@ -14,7 +18,7 @@
     local('Roboto-Bold'),
     url('fonts/roboto/Roboto-Bold.woff') format('woff'),
     url('fonts/roboto/Roboto-Bold.woff2') format('woff2');
-}
+}*/
 
 * {
   box-sizing: border-box;
