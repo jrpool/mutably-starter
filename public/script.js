@@ -4,23 +4,32 @@ const textInit = () => {
 };
 
 $(document).ready(function(){
+  getAll();
+  //put all the Ajax functions somewhere awesome- maybe above this and maybe in a separate file
+  //figure out how getAll interacts with textInit
   textInit();
   let currentBook;
-  $(".generic").click(function() {
-
-    //deleteOne("599236cdbc824300112668b3");
-
+  $(".createButton").click(function() {
+    //get info from form, instead of hardcoded
+     addOne("Nexus", "Ramez Naam", "http://modernmrsdarcy.com/wp-content/uploads/2013/07/best-book.png", "April 25, 2020");
+  });
+  // $(".specific").click(function() {
+  //   //placeholder
+  // });
+  $(".editButton").click(function() {
+    //item text gets replaced with the pre-populated, editable form.
+    //get specific id from the button click
     getOne("599362ca5113cf0011283334");
-
-     //addOne("Nexus", "Ramez Naam", "http://modernmrsdarcy.com/wp-content/uploads/2013/07/best-book.png", "April 25, 2020");
-
-    //getAll();
+    //edit button becomes a save button
   });
-  $(".specific").click(function() {
+  $(".saveButton").click(function() {
+    //make this function get filled in by what I get from the form
     updateOne("599362ca5113cf0011283334", 'title', 'Les Superhappy');
+    //once success message comes back from the server, input gets replaced with the updated text
   });
-  $(".3").click(function() {
-    getAll();
+  $(".deleteButton").click(function() {
+    //get specific id
+    deleteOne("599236cdbc824300112668b3");
   });
 
 
@@ -28,6 +37,7 @@ $(document).ready(function(){
   let getAll = function() {
     $.ajax('http://mutably.herokuapp.com/books')
     .done(data=> {
+      //show all of them
       data.books.forEach(el=> {console.log(el);});
     })
     .fail(err => {
@@ -47,6 +57,7 @@ $(document).ready(function(){
       }
     })
     .done(data=> {
+      //append this one to the bottom of the list of books
       console.log(JSON.stringify(data.title) + " has been added");
     })
     .fail(err => {
@@ -58,6 +69,7 @@ $(document).ready(function(){
     $.ajax(`http://mutably.herokuapp.com/books/${id}`)
     .done(bookObject => {
       currentBook = bookObject;
+      //show this one (with the button for editing+)
     })
     .fail(err => {
       console.error("ERROR: \n" + err.status + "  " + err.statusText + " : " + err.responseText);
