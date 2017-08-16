@@ -4,7 +4,7 @@ const textInit = () => {
 };
 
 $(document).ready(function(){
-  getAll();
+  //getAll();
   //put all the Ajax functions somewhere awesome- maybe above this and maybe in a separate file
   //figure out how getAll interacts with textInit
   textInit();
