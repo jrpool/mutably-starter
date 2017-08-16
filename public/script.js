@@ -1,4 +1,10 @@
+const textInit = () => {
+  document.getElementById('title').textContent = texts.text_title;
+  document.getElementById('intro').innerHTML = texts.text_intro;
+};
+
 $(document).ready(function(){
+  textInit();
   let currentBook;
   $(".generic").click(function() {
 

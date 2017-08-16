@@ -1,77 +1,79 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
     <title>Simple Book List</title>
-    <link type="text/css" rel="stylesheet" href="style.css">
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link type="text/css" rel="stylesheet" href="materialize.min.css"
       media="screen,projection">
+    <link type="text/css" rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.2.1.js" defer></script>
     <script type="text/javascript" src="script.js" defer></script>
     <script type="text/javascript" src="materialize.min.js"
       defer></script>
+    <script type="text/javascript" src="../views/text/eng.js" defer></script>
   </head>
   <body>
     <main>
-      <section class="generic">
+      <section id="generic">
         <section class="title">
-          <h2 id="title"></h2>
+          <h2 id="title">[text_title]</h2>
         </section>
         <section class="intro">
-          <h4 id="intro"></h4>
+          <p id="intro">[text_intro]</p>
         </section>
         <section class="controllers">
           <div class="controller" id="controller-[action]">
-            <button class="generic"></button>
-            <span class="legend"></span>
+            <button class="generic">[text_button_genaction]</button>
+            <span class="legend">[text_legend_genaction]</span>
           </div>
         </section>
       </section>
       <section id="list">
         <div class="record" id="record-[id]">
-          <button class="specific" id="[action]-[id]"></button>
-          <span class="description"></span>
+          <button class="specific"
+            id="[action]-[id]">[text_button_recaction]</button>
+          <span class="legend">[text_legend_recaction]</span>
         </div>
       </section>
-      <section class="contingent">
+      <section id="contingent">
         <section class="invisible" id="make">
           <div class="legend"></div>
-          <div id="make-[property]">[template-insertion]</div>
+          <div id="make-[property]">[template_insertion]</div>
           <div class="make-done">
-            <button class="specific"></button>
+            <button class="specific">[text_make_done]</button>
           </div>
         </section>
         <section class="invisible" id="detail">
           <div class="legend"></div>
-          <div id="detail-[property]">[template-insertion]</div>
+          <div id="detail-[property]">[template_insertion]</div>
           <div class="detail-controllers">
-            <button class="specific" id="revise">[revise]</button>
+            <button class="specific" id="revise">[text_button_revise]</button>
             <button class="specific invisible"
-              id="revise-submit-[id]">[revise-submit]</button>
+              id="revise-submit-[id]">[text_button_revsubmit]</button>
             <button
-              class="specific invisible" id="revise-revert">[revise-revert]</button>
-            <button class="specific" id="delete-[id]">[delete]</button>
+              class="specific invisible" id="revise-revert">[text_button_revrevert]</button>
+            <button class="specific"
+              id="delete-[id]">[text_button_delete]</button>
+            <div class="alert" id="revalert">[text_alert]</div>
           </div>
         </section>
         <section class="invisible" id="template">
-          <span class="name">[name-property]</span>
-          <label>[label-property]
-            <span class="value">
-              <!--status = empty or readonly or required-->
-              <!--type = text or url or date-->
-              <input
-                name="[property]"
-                [status]
-                label="[label-property]"
-                type="[type]"
-                value=""
-                placeholder="[placeholder-property]"
-                size="0"
-                maxlength="0"
-              >
-            </span>
+          <span class="name">[text_name_property]</span>
+          <label>[label_property]
+            <!--status = empty or readonly or required-->
+            <!--type = text or url or date-->
+            <input
+              name="[property]"
+              [status]
+              label="[label-property]"
+              type="[type-property]"
+              value=""
+              placeholder="[placeholder-property]"
+              size="1"
+              maxlength="1">
           </label>
         </section>
       </section>

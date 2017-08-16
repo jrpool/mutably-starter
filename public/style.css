@@ -1,1 +1,37 @@
-/*Custom styles here*/
+* {
+  box-sizing: border-box;
+}
+
+#contingent {
+  background-color: beige;
+}
+
+#generic,
+#generic * {
+  background-color: tan;
+}
+
+#intro,
+#intro li,
+#intro span {
+  line-height: 0.1;
+}
+
+#intro,
+#title {
+  margin: 2%;
+}
+
+#intro li.collection-header {
+  line-height: 1.2;
+  font-weight: bold;
+}
+
+#intro span.tiny {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+#list {
+  background-color: wheat;
+}
