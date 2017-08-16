@@ -1,7 +1,14 @@
 // Define a an object acting as a map from text labels to texts in English.
 const texts = {
   'text_title': 'Simple Book List',
-  'text_intro': 'This web application lets you interact with a list of books maintained at the <a href="http://mutably.herokuapp.com">mutably</a> website.<br><ul class="collection with-header "><li class="collection-header">What you can do:</li><li class="collection-item"><span class="material-icons tiny">check</span>see the list</li><li class="collection-item"><span class="material-icons tiny">check</span>see the details of any of its books</li><li class="collection-item"><span class="material-icons tiny">check</span>amend any book’s details</li><li class="collection-item"><span class="material-icons tiny">check</span>add any book to the list</li><li class="collection-item"><span class="material-icons tiny">check</span>remove any book from the list</li></ul>',
+  'text_intro_main': 'This web application lets you interact with a list of books maintained at the <a href="http://mutably.herokuapp.com">mutably</a> website.',
+  'text_intro_options_intro': 'What you can do:',
+  'option_see_all': 'see the list',
+  'option_see_1': 'see the details of any of its books',
+  'option_amend': 'amend any book’s details',
+  'option_add': 'add any book to the list',
+  'option_remove': 'remove any book from the list',
+  'text_intro': 'This web application lets you interact with a list of books maintained at the <a href="http://mutably.herokuapp.com">mutably</a> website.<br><ul class="collection with-header"><li class="collection-header">What you can do:</li><li class="collection-item"><span class="material-icons tiny">check</span>see the list</li><li class="collection-item"><span class="material-icons tiny">check</span>see the details of any of its books</li><li class="collection-item"><span class="material-icons tiny">check</span>amend any book’s details</li><li class="collection-item"><span class="material-icons tiny">check</span>add any book to the list</li><li class="collection-item"><span class="material-icons tiny">check</span>remove any book from the list</li></ul>',
   'regpage': 'Membership Registration',
   'logpage': 'Member Login',
   'anongreet': 'Hello, stranger.',

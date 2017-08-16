@@ -1,13 +1,40 @@
-const textInit = () => {
-  document.getElementById('title').textContent = texts.text_title;
-  document.getElementById('intro').innerHTML = texts.text_intro;
+// Define a function that returns the page’s introduction’s text.
+const composeIntro = texts => {
+  const pieces = [];
+  pieces[0] = texts.text_intro_main;
+  pieces[1] = '<li class="collection-header">'
+    + texts.text_intro_options_intro
+    + '</li>';
+  const options = [
+    'option_see_all',
+    'option_see_1',
+    'option_amend',
+    'option_add',
+    'option_remove'
+  ];
+  pieces[2] = options.map(value =>
+    '<li class="collection-item"><span class="material-icons tiny">check</span>'
+    + texts[value]
+    + '</li>'
+  ).join('');
+  return pieces[0]
+    + '<ul class="collection with-header">'
+    + pieces[1]
+    + pieces[2]
+    + '</ul>';
 };
 
-$(document).ready(function(){
-  //getAll();
-  //put all the Ajax functions somewhere awesome- maybe above this and maybe in a separate file
-  //figure out how getAll interacts with textInit
-  textInit();
+// Define a function that initializes the page text.
+const textInit = texts => {
+  document.getElementById('title').textContent = texts.text_title;
+  document.getElementById('intro').innerHTML = composeIntro(texts);
+};
+
+$(document).ready(function() {
+  // getAll();
+  // put all the Ajax functions somewhere awesome- maybe above this and maybe in a separate file
+  // figure out how getAll interacts with textInit
+  textInit(texts);
   let currentBook;
   $(".createButton").click(function() {
     //get info from form, instead of hardcoded
@@ -17,18 +44,18 @@ $(document).ready(function(){
   //   //placeholder
   // });
   $(".editButton").click(function() {
-    //item text gets replaced with the pre-populated, editable form.
-    //get specific id from the button click
+    // item text gets replaced with the pre-populated, editable form.
+    // get specific id from the button click
     getOne("599362ca5113cf0011283334");
-    //edit button becomes a save button
+    // edit button becomes a save button
   });
   $(".saveButton").click(function() {
-    //make this function get filled in by what I get from the form
+    // make this function get filled in by what I get from the form
     updateOne("599362ca5113cf0011283334", 'title', 'Les Superhappy');
-    //once success message comes back from the server, input gets replaced with the updated text
+    // once success message comes back from the server, input gets replaced with the updated text
   });
   $(".deleteButton").click(function() {
-    //get specific id
+    // get specific id
     deleteOne("599236cdbc824300112668b3");
   });
 
@@ -37,7 +64,7 @@ $(document).ready(function(){
   let getAll = function() {
     $.ajax('http://mutably.herokuapp.com/books')
     .done(data=> {
-      //show all of them
+      // show all of them
       data.books.forEach(el=> {console.log(el);});
     })
     .fail(err => {
@@ -57,7 +84,7 @@ $(document).ready(function(){
       }
     })
     .done(data=> {
-      //append this one to the bottom of the list of books
+      // append this one to the bottom of the list of books
       console.log(JSON.stringify(data.title) + " has been added");
     })
     .fail(err => {
@@ -69,7 +96,7 @@ $(document).ready(function(){
     $.ajax(`http://mutably.herokuapp.com/books/${id}`)
     .done(bookObject => {
       currentBook = bookObject;
-      //show this one (with the button for editing+)
+      // show this one (with the button for editing+)
     })
     .fail(err => {
       console.error("ERROR: \n" + err.status + "  " + err.statusText + " : " + err.responseText);
@@ -82,7 +109,7 @@ $(document).ready(function(){
       method: 'get',
     })
     .done(bookFromServerAsObject => {
-      //Object.entries is an array of arrays of keys and values for that obj
+      // Object.entries is an array of arrays of keys and values for that obj
       let currentBookAsArrayToCompare = Object.entries(currentBook);
       let bookFromServerAsArrayToCompare = Object.entries(bookFromServerAsObject);
       if(currentBookAsArrayToCompare.toString() === bookFromServerAsArrayToCompare.toString()) {
