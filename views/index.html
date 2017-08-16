@@ -18,17 +18,12 @@
     <main>
       <section id="generic">
         <section class="title">
-          <h2 id="title">[text_title]</h2>
+          <h2 id="title">[page title]</h2>
         </section>
         <section class="intro">
-          <p id="intro">[text_intro]</p>
+          <p id="intro">[page introduction]</p>
         </section>
-        <section class="controllers">
-          <div class="controller" id="controller-[action]">
-            <button class="generic">[text_button_genaction]</button>
-            <span class="legend">[text_legend_genaction]</span>
-          </div>
-        </section>
+        <section class="controls">[template 0 results]</section>
       </section>
       <section id="list">
         <div class="record" id="record-[id]">
@@ -40,15 +35,15 @@
       <section id="contingent">
         <section class="invisible" id="make">
           <div class="legend"></div>
-          <div id="make-[property]">[template_insertion]</div>
+          <div id="make-[property]">[template 1 results]</div>
           <div class="make-done">
             <button class="specific">[text_make_done]</button>
           </div>
         </section>
         <section class="invisible" id="detail">
           <div class="legend"></div>
-          <div id="detail-[property]">[template_insertion]</div>
-          <div class="detail-controllers">
+          <div id="detail-[property]">[template 1 results]</div>
+          <div class="detail-controls">
             <button class="specific" id="revise">[text_button_revise]</button>
             <button class="specific invisible"
               id="revise-submit-[id]">[text_button_revsubmit]</button>
@@ -59,23 +54,31 @@
             <div class="alert" id="revalert">[text_alert]</div>
           </div>
         </section>
-        <!--This section is an invisible template of a labeled text field, to
-        be cloned, populated, and inserted into the document where needed.-->
-        <section class="invisible" id="template">
-          <span class="name">[text_name_property]</span>
-          <label>[label_property]
-            <!--status = empty or readonly or required-->
-            <!--type = text or url or date-->
-            <input
-              name="[property]"
-              [status]
-              label="[label-property]"
-              type="[type-property]"
-              value=""
-              placeholder="[placeholder-property]"
-              size="1"
-              maxlength="1">
-          </label>
+        <!--The following sections are invisible templates, to be cloned,
+        populated, and inserted into the document where needed.-->
+        <!--Generic control template-->
+        <section id="template-0">
+          <div class="controller" id="controller-[action: see_all or add]">
+            <button class="generic">[button text]</button>
+            <span class="legend">[legend]</span>
+          </div>
+        </section>
+        <!--Labeled text input for 1 property of a list item-->
+        <section class="invisible">
+          <section id="template-1">
+            <span class="name">[property name]</span>
+            <label>[label text]
+              <!--If status neither readonly nor required, omit status.-->
+              <input
+                name="[property name]"
+                status: "[item status: readonly or required]"
+                type="[property type: text, url, or date]"
+                value=""
+                placeholder="[property placeholder]"
+                size="1"
+                maxlength="1">
+            </label>
+          </section>
         </section>
       </section>
     </main>

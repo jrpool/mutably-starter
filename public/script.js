@@ -24,10 +24,26 @@ const composeIntro = texts => {
     + '</ul>';
 };
 
+// Define a function that initializes the generic controls.
+const composeGenericControls = texts => {
+  const actions = ['see_all', 'add'];
+  const target = document.getElementById('generic').lastElementChild;
+  target.textContent = '';
+  for (const action of actions) {
+    const newControl
+      = document.getElementById('template-0').firstElementChild.cloneNode(true);
+    newControl.id = 'controller-' + action;
+    newControl.firstElementChild.textContent = texts['button_' + action];
+    newControl.lastElementChild.textContent = texts['legend_' + action];
+    target.appendChild(newControl);
+  }
+};
+
 // Define a function that initializes the page text.
 const textInit = texts => {
   document.getElementById('title').textContent = texts.text_title;
   document.getElementById('intro').innerHTML = composeIntro(texts);
+  composeGenericControls(texts);
 };
 
 $(document).ready(function() {

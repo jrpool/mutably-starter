@@ -8,4 +8,8 @@ window.texts = {
   'option_amend': 'amend any book’s details',
   'option_add': 'add any book to the list',
   'option_remove': 'remove any book from the list',
+  'button_see_all': 'See List',
+  'button_add': 'Add a Book',
+  'legend_see_all': 'See the list of all books',
+  'legend_add': 'Add a new book to the list'
 };

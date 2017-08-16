@@ -24,6 +24,11 @@ html {
   box-sizing: border-box;
 }
 
+#generic button.generic {
+  background-color: saddlebrown;
+  color: white;
+}
+
 #contingent {
   background-color: beige;
 }
