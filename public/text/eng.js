@@ -1,5 +1,5 @@
 // Define a an object acting as a map from text labels to texts in English.
-const texts = {
+window.texts = {
   'text_title': 'Simple Book List',
   'text_intro_main': 'This web application lets you interact with a list of books maintained at the <a href="http://mutably.herokuapp.com">mutably</a> website.',
   'text_intro_options_intro': 'What you can do:',
@@ -8,33 +8,4 @@ const texts = {
   'option_amend': 'amend any book’s details',
   'option_add': 'add any book to the list',
   'option_remove': 'remove any book from the list',
-  'text_intro': 'This web application lets you interact with a list of books maintained at the <a href="http://mutably.herokuapp.com">mutably</a> website.<br><ul class="collection with-header"><li class="collection-header">What you can do:</li><li class="collection-item"><span class="material-icons tiny">check</span>see the list</li><li class="collection-item"><span class="material-icons tiny">check</span>see the details of any of its books</li><li class="collection-item"><span class="material-icons tiny">check</span>amend any book’s details</li><li class="collection-item"><span class="material-icons tiny">check</span>add any book to the list</li><li class="collection-item"><span class="material-icons tiny">check</span>remove any book from the list</li></ul>',
-  'regpage': 'Membership Registration',
-  'logpage': 'Member Login',
-  'anongreet': 'Hello, stranger.',
-  'knowngreet': 'Welcome back, «email».',
-  'email': 'Your email address',
-  'emailholder': 'username@domain.tld',
-  'pw': 'Your password',
-  'pw0': 'A new password (5 or more characters)',
-  'pw1': 'The same new password again',
-  'reg': 'Register',
-  'login': 'Log in',
-  'logout': 'Log out (i.e. delete registration)',
-  'nopw': 'Missing password.',
-  'nopw0': 'Missing new password.',
-  'nopw1': 'Missing password repetition.',
-  'badpw1': 'Password repetition differs from password.',
-  'noemail': 'Missing email address.',
-  'noregs':
-    'An email address, a password, and a repeated password are required.',
-  'nologins': 'Your email address and password are required.',
-  'shortpw': 'Your proposed password is too short.',
-  'bademail': 'The address is not a valid email address.',
-  'badlogins': 'The email address or password is incorrect.',
-  'dbmade': 'The database and its owner have been created.',
-  'dbfilled': 'The database schema has been created.',
-  'dbdropped': 'The database and its owner have been deleted.',
-  'error': 'An error has occurred in «unit». Error message:\n',
-  'badcookie': 'The cookie in a request was not decryptable.'
 };

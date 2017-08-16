@@ -34,6 +34,7 @@ $(document).ready(function() {
   // getAll();
   // put all the Ajax functions somewhere awesome- maybe above this and maybe in a separate file
   // figure out how getAll interacts with textInit
+  const texts = window.texts;
   textInit(texts);
   let currentBook;
   $(".createButton").click(function() {
