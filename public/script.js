@@ -125,11 +125,11 @@ const addInit = texts => {
     input.name = texts['property_name_' + itemProperty[0]];
     input.status = 'required';
     input.type = itemProperty[1];
-    input.value = "";
+    input.value = '';
     input.placeholder = texts['placeholder_' + itemProperty[0]];
     input.size = input.maxlength = itemProperty[2];
     propertyTarget.appendChild(property);
-  };
+  }
 };
 
 // /// EVENT HANDLERS /// //
