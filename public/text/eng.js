@@ -18,17 +18,17 @@ window.texts = {
   'property_label_title': 'Title',
   'property_label_author': 'Author',
   'property_label_image': 'Image URL',
-  'property_label_release_date': 'Publication Date',
-  'property_label_v': 'Version',
+  'property_label_releaseDate': 'Publication Date',
+  'property_label___v': 'Version',
   'property_name_id': 'id',
   'property_name_title': 'title',
   'property_name_author': 'author',
   'property_name_image': 'image-url',
-  'property_name_release_date': 'Publication Date',
-  'property_name_v': 'Version',
+  'property_name_releaseDate': 'Publication Date',
+  'property_name___v': 'Version',
   'property_placeholder_title': 'Book Title',
   'property_placeholder_author': 'Forename Surname',
   'property_placeholder_image': 'https://image/web/address.url',
-  'property_placeholder_release_date': 'yyyy-mm-dd',
-  'property_placeholder_v': '0'
+  'property_placeholder_releaseDate': 'yyyy-mm-dd',
+  'property_placeholder___v': '0'
 };

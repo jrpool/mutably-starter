@@ -112,6 +112,7 @@ const addInit = texts => {
     ['__v', 'number', 2]
   ];
   const propertyTarget = target.children[1];
+  propertyTarget.textContent = '';
   for (const itemProperty of itemProperties) {
     const property = document.getElementById('template-2')
       .firstElementChild.cloneNode(true);
@@ -123,11 +124,11 @@ const addInit = texts => {
       = texts['property_label_' + itemProperty[0]];
     const input = label.lastElementChild;
     input.name = texts['property_name_' + itemProperty[0]];
-    input.status = 'required';
+    input.removeAttribute('readonly');
     input.type = itemProperty[1];
-    input.value = '';
-    input.placeholder = texts['placeholder_' + itemProperty[0]];
-    input.size = input.maxlength = itemProperty[2];
+    input.removeAttribute('value');
+    input.placeholder = texts['property_placeholder_' + itemProperty[0]];
+    input.size = input.maxLength = itemProperty[2];
     propertyTarget.appendChild(property);
   }
 };

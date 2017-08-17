@@ -65,14 +65,15 @@
         </section>
         <section id="template-2">
           <!--List-item property template-->
+          <!--Remove readonly, required, or both below.-->
           <div class="property" id="[action]-[property name]">
             <span class="name">[property label]</span>
             <label><span>[property label]</span>
-              <!--If status neither readonly nor required, omit status.-->
               <input
                 name="[property name]"
-                status: "[item status: readonly or required]"
                 type="[property type: text, url, date, or number]"
+                readonly=""
+                required=""
                 value=""
                 placeholder="[property placeholder]"
                 size="1"
