@@ -25,24 +25,17 @@
         </section>
         <section class="controls">[template 0 results]</section>
       </section>
-      <section id="list">
-        <div class="record" id="record-[id]">
-          <button class="specific"
-            id="[action]-[id]">[text_button_recaction]</button>
-          <span class="legend">[text_legend_recaction]</span>
-        </div>
-      </section>
+      <section id="list">[template 1 results]</section>
       <section id="contingent">
-        <section class="invisible" id="make">
-          <div class="legend"></div>
-          <div id="make-[property]">[template 1 results]</div>
-          <div class="make-done">
-            <button class="specific">[text_make_done]</button>
+        <section class="invisible" id="add">
+          <div class="instructions">[add-record instructions]</div>
+          <div class="properties">[template 2 results]</div>
+          <section class="controls">[template 3 results]</section>
           </div>
         </section>
         <section class="invisible" id="detail">
-          <div class="legend"></div>
-          <div id="detail-[property]">[template 1 results]</div>
+          <div class="instructions"></div>
+          <div id="detail-[property]">[template 2 results]</div>
           <div class="detail-controls">
             <button class="specific" id="revise">[text_button_revise]</button>
             <button class="specific invisible"
@@ -58,27 +51,41 @@
         populated, and inserted into the document where needed.-->
         <!--Generic control template-->
         <section id="template-0">
-          <div class="controller" id="controller-[action: see_all or add]">
+          <div class="control" id="control-[action: see_all or add]">
             <button class="generic">[button text]</button>
             <span class="legend">[legend]</span>
           </div>
         </section>
-        <!--Labeled text input for 1 property of a list item-->
-        <section class="invisible">
-          <section id="template-1">
-            <span class="name">[property name]</span>
-            <label>[label text]
-              <!--If status neither readonly nor required, omit status.-->
-              <input
-                name="[property name]"
-                status: "[item status: readonly or required]"
-                type="[property type: text, url, or date]"
-                value=""
-                placeholder="[property placeholder]"
-                size="1"
-                maxlength="1">
-            </label>
-          </section>
+        <!--List-item template-->
+        <section id="template-1">
+          <div class="record" id="record-[_id]">
+            <button class="specific"
+              id="[action: see_1]-[_id]">[button text]</button>
+            <span>[record summary]</span>
+          </div>
+        </section>
+        <!--Labeled template for 1 property of a list item-->
+        <section id="template-2">
+          <span class="name">[property label]</span>
+          <label>[property label]
+            <!--If status neither readonly nor required, omit status.-->
+            <input
+              name="[property name]"
+              status: "[item status: readonly or required]"
+              type="[property type: text, url, or date]"
+              value=""
+              placeholder="[property placeholder]"
+              size="1"
+              maxlength="1">
+          </label>
+        </section>
+        <!--Specific control template-->
+        <section id="template-3">
+          <div class="control"
+            id="control-[action: submit, restart, or cancel]">
+            <button class="specific">[button text]</button>
+            <span class="legend">[legend]</span>
+          </div>
         </section>
       </section>
     </main>
