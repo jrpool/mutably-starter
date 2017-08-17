@@ -34,7 +34,7 @@ const composeGenericControls = texts => {
   for (const action of actions) {
     const newControl
       = document.getElementById('template-0').firstElementChild.cloneNode(true);
-    newControl.id = 'controller-' + action;
+    newControl.id = 'control-' + action;
     newControl.firstElementChild.textContent = texts['button_' + action];
     newControl.lastElementChild.textContent = texts['legend_' + action];
     target.appendChild(newControl);
@@ -73,6 +73,21 @@ const composeList = (texts, data) => {
       listItem.lastElementChild.textContent = summary(record);
       target.appendChild(listItem);
     }
+  }
+};
+
+// Define a function that initializes the add-record controls.
+const composeAddControls = texts => {
+  const actions = ['submit', 'cancel'];
+  const target = document.getElementById('add').lastElementChild;
+  target.textContent = '';
+  for (const action of actions) {
+    const newControl
+      = document.getElementById('template-3').firstElementChild.cloneNode(true);
+    newControl.id = 'control-' + action;
+    newControl.firstElementChild.textContent = texts['button_' + action];
+    newControl.lastElementChild.textContent = texts['legend_' + action];
+    target.appendChild(newControl);
   }
 };
 
@@ -129,6 +144,7 @@ const addInit = texts => {
     label.textContent = texts['property_label_' + itemProperty[0]];
     propertyTarget.appendChild(property);
   }
+  composeAddControls(texts);
 };
 
 // /// EVENT HANDLERS /// //

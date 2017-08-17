@@ -30,5 +30,9 @@ window.texts = {
   'property_placeholder_author': 'Forename Surname',
   'property_placeholder_image': 'https://image/web/address.url',
   'property_placeholder_releaseDate': '',
-  'property_placeholder___v': '0'
+  'property_placeholder___v': '0',
+  'button_submit': 'Submit',
+  'button_cancel': 'Cancel',
+  'legend_submit': 'Add this book to the list',
+  'legend_cancel': 'Return to the list, without adding a book'
 };
