@@ -24,11 +24,11 @@ window.texts = {
   'property_name_title': 'title',
   'property_name_author': 'author',
   'property_name_image': 'image-url',
-  'property_name_releaseDate': 'Publication Date',
-  'property_name___v': 'Version',
+  'property_name_releaseDate': 'release-date',
+  'property_name___v': 'version',
   'property_placeholder_title': 'Book Title',
   'property_placeholder_author': 'Forename Surname',
   'property_placeholder_image': 'https://image/web/address.url',
-  'property_placeholder_releaseDate': 'yyyy-mm-dd',
+  'property_placeholder_releaseDate': '',
   'property_placeholder___v': '0'
 };

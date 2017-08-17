@@ -116,19 +116,17 @@ const addInit = texts => {
   for (const itemProperty of itemProperties) {
     const property = document.getElementById('template-2')
       .firstElementChild.cloneNode(true);
-    property.id = 'add_' + texts['property_name_' + itemProperty[0]];
-    property.firstElementChild.textContent
-      = texts['property_label_' + itemProperty[0]];
-    const label = property.lastElementChild;
-    label.firstElementChild.textContent
-      = texts['property_label_' + itemProperty[0]];
-    const input = label.lastElementChild;
+    const input = property.firstElementChild;
+    input.id = 'add_' + texts['property_name_' + itemProperty[0]];
     input.name = texts['property_name_' + itemProperty[0]];
     input.removeAttribute('readonly');
     input.type = itemProperty[1];
     input.removeAttribute('value');
     input.placeholder = texts['property_placeholder_' + itemProperty[0]];
     input.size = input.maxLength = itemProperty[2];
+    const label = property.lastElementChild;
+    label.htmlFor = input.id;
+    label.textContent = texts['property_label_' + itemProperty[0]];
     propertyTarget.appendChild(property);
   }
 };

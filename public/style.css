@@ -38,6 +38,10 @@ html {
   background-color: tan;
 }
 
+.input-field label {
+  color: #773;
+}
+
 #intro,
 #intro li,
 #intro span {

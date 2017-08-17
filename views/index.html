@@ -66,19 +66,20 @@
         <section id="template-2">
           <!--List-item property template-->
           <!--Remove readonly, required, or both below.-->
-          <div class="property" id="[action]-[property name]">
-            <span class="name">[property label]</span>
-            <label><span>[property label]</span>
-              <input
-                name="[property name]"
-                type="[property type: text, url, date, or number]"
-                readonly=""
-                required=""
-                value=""
-                placeholder="[property placeholder]"
-                size="1"
-                maxlength="1">
-            </label>
+          <div class="property input-field">
+            <input
+              id="[action]_[property name]"
+              class="validate"
+              name="[property name]"
+              type="[property type: text, url, date, or number]"
+              readonly=""
+              required=""
+              value=""
+              placeholder="[property placeholder]"
+              size="1"
+              maxlength="1">
+            <label class="active"
+              for="[action]_[property name]">[property label]</label>
           </div>
         </section>
         <section id="template-3">
