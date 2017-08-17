@@ -26,70 +26,54 @@
         <section class="controls">[template 0 results]</section>
       </section>
       <section id="list">[template 1 results]</section>
-      <section id="contingent">
-        <section class="invisible" id="add">
-          <div class="instructions">[add-record instructions]</div>
-          <div class="properties">[template 2 results]</div>
-          <section class="controls">[template 3 results]</section>
-        </section>
-        <section class="invisible" id="detail">
-          <div class="instructions"></div>
-          <div id="detail-[property]">[template 2 results]</div>
-          <div class="detail-controls">
-            <button class="specific" id="revise">[text_button_revise]</button>
-            <button class="specific invisible"
-              id="revise-submit-[id]">[text_button_revsubmit]</button>
-            <button
-              class="specific invisible" id="revise-revert">[text_button_revrevert]</button>
-            <button class="specific"
-              id="delete-[id]">[text_button_delete]</button>
-            <div class="alert" id="revalert">[text_alert]</div>
-          </div>
-        </section>
-        <!--The following sections are invisible templates, to be cloned,
-        populated, and inserted into the document where needed.-->
-        <section id="template-0">
-          <!--Generic control template-->
-          <div class="control" id="control-[action: see_all or add]">
-            <button class="generic">[button text]</button>
-            <span class="legend">[legend]</span>
-          </div>
-        </section>
-        <section id="template-1">
-          <!--List-item template-->
-          <div class="record" id="summary-[_id]">
-            <button class="specific"
-              id="[action: see_1]-[_id]">[button text]</button>
-            <span>[record summary]</span>
-          </div>
-        </section>
-        <section id="template-2">
-          <!--List-item property template-->
-          <!--Remove readonly, required, or both below.-->
-          <div class="property input-field">
-            <input
-              id="[action]_[property name]"
-              class="validate"
-              name="[property name]"
-              type="[property type: text, url, date, or number]"
-              readonly=""
-              required=""
-              value=""
-              placeholder="[property placeholder]"
-              size="1"
-              maxlength="1">
-            <label class="active"
-              for="[action]_[property name]">[property label]</label>
-          </div>
-        </section>
-        <section id="template-3">
-          <!--Specific control template-->
-          <div class="control"
-            id="control-[action: submit or cancel]">
-            <button class="specific">[button text]</button>
-            <span class="legend">[legend]</span>
-          </div>
-        </section>
+      <section class="invisible" id="specific">
+        <div class="instructions">[add-record instructions]</div>
+        <div class="properties">[template 2 results]</div>
+        <section class="controls">[template 3 results]</section>
+      </section>
+      <!--The following sections are invisible templates, to be cloned,
+      populated, and inserted into the document where needed.-->
+      <section id="template-0">
+        <!--Generic control template-->
+        <div class="control" id="control-[action: see_all or add]">
+          <button class="generic">[button text]</button>
+          <span class="legend">[legend]</span>
+        </div>
+      </section>
+      <section id="template-1">
+        <!--List-item template-->
+        <div class="record" id="summary-[_id]">
+          <button class="specific"
+            id="[action: see_1]-[_id]">[button text]</button>
+          <span>[record summary]</span>
+        </div>
+      </section>
+      <section id="template-2">
+        <!--List-item property template-->
+        <!--Remove readonly, required, or both below.-->
+        <div class="property input-field">
+          <input
+            id="[action]_[property name]"
+            class="validate"
+            name="[property name]"
+            type="[property type: text, url, date, or number]"
+            readonly=""
+            required=""
+            value=""
+            placeholder="[property placeholder]"
+            size="1"
+            maxlength="1">
+          <label class="active"
+            for="[action]_[property name]">[property label]</label>
+        </div>
+      </section>
+      <section id="template-3">
+        <!--Specific control template-->
+        <div class="control"
+          id="control-[action: submit or cancel]">
+          <button class="specific">[button text]</button>
+          <span class="legend">[legend]</span>
+        </div>
       </section>
     </main>
   </body>

@@ -79,7 +79,7 @@ const composeList = (texts, data) => {
 // Define a function that initializes the add-record controls.
 const composeAddControls = texts => {
   const actions = ['submit', 'cancel'];
-  const target = document.getElementById('add').lastElementChild;
+  const target = document.getElementById('specific').lastElementChild;
   target.textContent = '';
   for (const action of actions) {
     const newControl
@@ -117,7 +117,7 @@ const listInit = texts => {
 
 // Define a function that initializes the add-record section.
 const addInit = texts => {
-  const target = document.getElementById('add');
+  const target = document.getElementById('specific');
   target.firstElementChild.textContent = texts.instructions_add;
   const itemProperties = [
     ['title', 'text', 80],
