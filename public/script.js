@@ -57,21 +57,21 @@ const composeList = (texts, data) => {
   ];
   for (const record of data.books) {
     if (requiredProperties.every(value => record.hasOwnProperty(value))) {
-      const newListItem = document
+      const listItem = document
         .getElementById('template-1')
         .firstElementChild
         .cloneNode(true);
-      newListItem.id = 'record-' + record._id;
+      listItem.id.replace(/\[_id\]/, record._id);
       const buttonTemplate
-        = newListItem.removeChild(newListItem.firstElementChild);
+        = listItem.removeChild(listItem.firstElementChild);
       for (const action of actions) {
-        const newItemButton = buttonTemplate.cloneNode(true);
-        newItemButton.id = action + '-' + record._id;
-        newItemButton.textContent = texts['button_' + action];
-        newListItem.insertBefore(newItemButton, newListItem.lastElementChild);
+        const itemButton = buttonTemplate.cloneNode(true);
+        itemButton.id = action + '-' + record._id;
+        itemButton.textContent = texts['button_' + action];
+        listItem.insertBefore(itemButton, listItem.lastElementChild);
       }
-      newListItem.lastElementChild.textContent = summary(record);
-      target.appendChild(newListItem);
+      listItem.lastElementChild.textContent = summary(record);
+      target.appendChild(listItem);
     }
   }
 };
@@ -102,8 +102,34 @@ const listInit = texts => {
 
 // Define a function that initializes the add-record section.
 const addInit = texts => {
-  document.getElementById('add').firstElementChild.textContent
-    = texts.instructions_add;
+  const target = document.getElementById('add');
+  target.firstElementChild.textContent = texts.instructions_add;
+  const itemProperties = [
+    ['title', 'text', 80],
+    ['author', 'text', 80],
+    ['image', 'url', 80],
+    ['releaseDate', 'date', 10],
+    ['__v', 'number', 2]
+  ];
+  const propertyTarget = target.children[1];
+  for (const itemProperty of itemProperties) {
+    const property = document.getElementById('template-2')
+      .firstElementChild.cloneNode(true);
+    property.id = 'add_' + texts['property_name_' + itemProperty[0]];
+    property.firstElementChild.textContent
+      = texts['property_label_' + itemProperty[0]];
+    const label = property.lastElementChild;
+    label.firstElementChild.textContent
+      = texts['property_label_' + itemProperty[0]];
+    const input = label.lastElementChild;
+    input.name = texts['property_name_' + itemProperty[0]];
+    input.status = 'required';
+    input.type = itemProperty[1];
+    input.value = "";
+    input.placeholder = texts['placeholder_' + itemProperty[0]];
+    input.size = input.maxlength = itemProperty[2];
+    propertyTarget.appendChild(property);
+  };
 };
 
 // /// EVENT HANDLERS /// //

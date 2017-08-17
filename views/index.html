@@ -31,7 +31,6 @@
           <div class="instructions">[add-record instructions]</div>
           <div class="properties">[template 2 results]</div>
           <section class="controls">[template 3 results]</section>
-          </div>
         </section>
         <section class="invisible" id="detail">
           <div class="instructions"></div>
@@ -49,38 +48,40 @@
         </section>
         <!--The following sections are invisible templates, to be cloned,
         populated, and inserted into the document where needed.-->
-        <!--Generic control template-->
         <section id="template-0">
+          <!--Generic control template-->
           <div class="control" id="control-[action: see_all or add]">
             <button class="generic">[button text]</button>
             <span class="legend">[legend]</span>
           </div>
         </section>
-        <!--List-item template-->
         <section id="template-1">
-          <div class="record" id="record-[_id]">
+          <!--List-item template-->
+          <div class="record" id="summary-[_id]">
             <button class="specific"
               id="[action: see_1]-[_id]">[button text]</button>
             <span>[record summary]</span>
           </div>
         </section>
-        <!--Labeled template for 1 property of a list item-->
         <section id="template-2">
-          <span class="name">[property label]</span>
-          <label>[property label]
-            <!--If status neither readonly nor required, omit status.-->
-            <input
-              name="[property name]"
-              status: "[item status: readonly or required]"
-              type="[property type: text, url, or date]"
-              value=""
-              placeholder="[property placeholder]"
-              size="1"
-              maxlength="1">
-          </label>
+          <!--List-item property template-->
+          <div class="property" id="[action]-[property name]">
+            <span class="name">[property label]</span>
+            <label><span>[property label]</span>
+              <!--If status neither readonly nor required, omit status.-->
+              <input
+                name="[property name]"
+                status: "[item status: readonly or required]"
+                type="[property type: text, url, date, or number]"
+                value=""
+                placeholder="[property placeholder]"
+                size="1"
+                maxlength="1">
+            </label>
+          </div>
         </section>
-        <!--Specific control template-->
         <section id="template-3">
+          <!--Specific control template-->
           <div class="control"
             id="control-[action: submit, restart, or cancel]">
             <button class="specific">[button text]</button>
