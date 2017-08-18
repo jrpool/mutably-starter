@@ -65,6 +65,10 @@ html {
   font-weight: bold;
 }
 
+.invisible {
+  display: none;
+}
+
 #list {
   background-color: wheat;
 }

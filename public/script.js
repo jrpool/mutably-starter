@@ -8,8 +8,8 @@ const composeIntro = texts => {
     + texts.options_intro
     + '</li>';
   const options = [
-    'option_see_all',
-    'option_see_1',
+    'option_list',
+    'option_detail',
     'option_amend',
     'option_add',
     'option_remove'
@@ -28,7 +28,7 @@ const composeIntro = texts => {
 
 // Define a function that initializes the generic controls.
 const composeGenericControls = texts => {
-  const actions = ['see_all', 'add'];
+  const actions = ['list', 'add'];
   const target = document.getElementById('generic').lastElementChild;
   target.textContent = '';
   for (const action of actions) {
@@ -49,7 +49,7 @@ const summary = record =>
 
 // Define a function that initializes the list.
 const composeList = (texts, data) => {
-  const actions = ['see_1'];
+  const actions = ['detail'];
   const target = document.getElementById('list');
   target.textContent = '';
   const requiredProperties = [
@@ -76,9 +76,8 @@ const composeList = (texts, data) => {
   }
 };
 
-// Define a function that initializes the add-record controls.
-const composeAddControls = texts => {
-  const actions = ['submit', 'cancel'];
+// Define a function that initializes the single-record controls.
+const composeRecordControls = (texts, actions) => {
   const target = document.getElementById('specific').lastElementChild;
   target.textContent = '';
   for (const action of actions) {
@@ -103,6 +102,7 @@ const listInit = texts => {
   $.ajax('http://mutably.herokuapp.com/books')
   .done(data => {
     composeList(texts, data);
+    detailInit(texts, data.books[3]);
     return '';
   })
   .fail(err => {
@@ -118,6 +118,7 @@ const listInit = texts => {
 // Define a function that initializes the add-record section.
 const addInit = texts => {
   const target = document.getElementById('specific');
+  target.display = 'inherit';
   target.firstElementChild.textContent = texts.instructions_add;
   const itemProperties = [
     ['title', 'text', 80],
@@ -144,7 +145,41 @@ const addInit = texts => {
     label.textContent = texts['property_label_' + itemProperty[0]];
     propertyTarget.appendChild(property);
   }
-  composeAddControls(texts);
+  composeRecordControls(texts, ['submit', 'cancel']);
+};
+
+// Define a function that initializes the single-record detail section.
+const detailInit = (texts, record) => {
+  const target = document.getElementById('specific');
+  target.removeAttribute('class');
+  target.firstElementChild.textContent
+    = texts.instructions_detail.replace(/«id»/, record._id);
+  const itemProperties = [
+    ['title', 'text', 80],
+    ['author', 'text', 80],
+    ['image', 'url', 80],
+    ['releaseDate', 'text', 17],
+    ['__v', 'number', 2]
+  ];
+  const propertyTarget = target.children[1];
+  propertyTarget.textContent = '';
+  for (const itemProperty of itemProperties) {
+    const property = document.getElementById('template-2')
+      .firstElementChild.cloneNode(true);
+    const input = property.firstElementChild;
+    input.id = 'record_' + texts['property_name_' + itemProperty[0]];
+    input.name = texts['property_name_' + itemProperty[0]];
+    input.removeAttribute('required');
+    input.type = itemProperty[1];
+    input.value = record[itemProperty[0]];
+    input.removeAttribute('placeholder');
+    input.size = input.maxLength = itemProperty[2];
+    const label = property.lastElementChild;
+    label.htmlFor = input.id;
+    label.textContent = texts['property_label_' + itemProperty[0]];
+    propertyTarget.appendChild(property);
+  }
+  composeRecordControls(texts, ['amend', 'remove']);
 };
 
 // /// EVENT HANDLERS /// //
@@ -271,7 +306,7 @@ $(document).ready(function() {
   const texts = window.texts;
   genericInit(texts);
   listInit(texts);
-  addInit(texts);
+  // detailInit(texts);
 });
 
 // using jquery to change the DOM
