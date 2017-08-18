@@ -149,6 +149,16 @@ const listToggle = texts => {
 
 // === Utilities for Specific Sections === //
 
+// Define a function that makes a specified input element editable.
+const makeEditable = inputElement => {
+  inputElement.removeAttribute('readonly');
+  inputElement.required = '';
+  const editIcon = document.createElement('i');
+  editIcon.className = 'material-icons prefix';
+  editIcon.innerHTML = 'edit';
+  inputElement.insertAdjacentElement('beforebegin', editIcon);
+};
+
 // Define a function that creates a set of specific controls.
 const specificControlsCreate = (targetParent, texts, record, actions) => {
   const target
@@ -168,6 +178,16 @@ const specificControlsCreate = (targetParent, texts, record, actions) => {
 
 // Define a function that destroys and hides the add-record section.
 const addDestroy = () => {
+  const target = document.getElementById('add');
+  target.className = 'invisible';
+  target.children[0].textContent = '[instructions]';
+  target.children[1].textContent = '[template 2 results]';
+  target.children[2].textContent = '[template 3 results]';
+  document.getElementById('control-add').removeAttribute('class');
+};
+
+// Define a function that submits a new record for addition to the list.
+const addSubmit = () => {
   const target = document.getElementById('add');
   target.className = 'invisible';
   target.children[0].textContent = '[instructions]';
@@ -196,11 +216,11 @@ const addCreate = texts => {
     const input = property.firstElementChild;
     input.id = 'add_' + texts['property_name_' + itemProperty[0]];
     input.name = texts['property_name_' + itemProperty[0]];
-    input.removeAttribute('readonly');
     input.type = itemProperty[1];
     input.removeAttribute('value');
     input.placeholder = texts['property_placeholder_' + itemProperty[0]];
     input.size = input.maxLength = itemProperty[2];
+    makeEditable(input);
     const label = property.lastElementChild;
     label.htmlFor = input.id;
     label.textContent = texts['property_label_' + itemProperty[0]];
@@ -208,14 +228,10 @@ const addCreate = texts => {
   }
   specificControlsCreate('add', texts, null, ['add_submit', 'add_cancel']);
   // Create listeners for the created buttons.
-  // $('#control-add_submit').click(event => {
-  //   detailAmendSubmit(event);
-  //   return '';
-  // });
-  // $('#control-detail_version').click(event => {
-  //   detailVersionSubmit(event);
-  //   return '';
-  // });
+  $('#control-add_submit').click(() => {
+    addSubmit();
+    return '';
+  });
   $('#control-add_cancel').click(() => {
     addDestroy();
     return '';
@@ -229,15 +245,8 @@ const addCreate = texts => {
 const detailEditForm = (texts, record) => {
   const detailPropertySection = document.getElementById('detail').children[1];
   const detailPropertyDivs = detailPropertySection.children;
-  const editIcon = document.createElement('i');
-  editIcon.className = 'material-icons prefix';
   for (const div of detailPropertyDivs) {
-    const input = div.firstElementChild;
-    input.removeAttribute('readonly');
-    input.required = '';
-    input.insertAdjacentElement(
-      'beforebegin', editIcon.cloneNode()
-    ).textContent = 'edit';
+    makeEditable(div.firstElementChild);
   }
   const detailControlSection = document.getElementById('detail').children[2];
   detailControlSection.removeChild(
