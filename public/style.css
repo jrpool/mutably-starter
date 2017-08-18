@@ -7,7 +7,7 @@ html {
 }
 
 #add {
-  background-color: lightgoldenrodyellow;
+  background-color: #ffc;
 }
 
 #add > .controls > div:last-child,
@@ -30,7 +30,7 @@ html {
 }
 
 #detail {
-  background-color: beige;
+  background-color: #fdb;
 }
 
 #generic button.generic {
@@ -84,9 +84,13 @@ html {
 }
 
 #list {
-  background-color: wheat;
+  background-color: khaki;
 }
 
 #list > div {
   margin: 0 2%;
+}
+
+::placeholder {
+  color: teal;
 }
