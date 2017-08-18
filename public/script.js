@@ -1,4 +1,6 @@
-// /// INITIALIZATION FUNCTIONS /// //
+// /// DOM MANIPULATION FUNCTIONS /// //
+
+// === Static Generic Content === //
 
 // Define a function that returns the page’s introduction’s text.
 const composeIntro = texts => {
@@ -26,20 +28,34 @@ const composeIntro = texts => {
     + '</ul>';
 };
 
+// === Generic Controls === //
+
 // Define a function that initializes the generic controls.
 const composeGenericControls = texts => {
-  const actions = ['list', 'add'];
+  const idActions = ['list-toggle', 'add'];
+  const listHidden = document.getElementById('list').className === 'invisible';
+  const contentActions = [(listHidden ? 'list_show' : 'list_hide'), 'add'];
   const target = document.getElementById('generic').lastElementChild;
   target.textContent = '';
-  for (const action of actions) {
+  for (let actionIndex = 0; actionIndex < idActions.length; actionIndex++) {
     const newControl
       = document.getElementById('template-0').firstElementChild.cloneNode(true);
-    newControl.id = 'control-' + action;
-    newControl.firstElementChild.textContent = texts['button_' + action];
-    newControl.lastElementChild.textContent = texts['legend_' + action];
+    newControl.id = 'control-' + idActions[actionIndex];
+    const contentAction = contentActions[actionIndex];
+    newControl.firstElementChild.textContent = texts['button_' + contentAction];
+    newControl.lastElementChild.textContent = texts['legend_' + contentAction];
     target.appendChild(newControl);
   }
 };
+
+// Define a function that populates and displays the generic section.
+const genericInit = texts => {
+  document.getElementById('title').textContent = texts.title;
+  document.getElementById('intro').innerHTML = composeIntro(texts);
+  composeGenericControls(texts);
+};
+
+// === List Section === //
 
 // Define a function that summarizes a book.
 const summary = record =>
@@ -47,10 +63,25 @@ const summary = record =>
   + (record.author.replace(/^.* /, '') || '') + ', '
   + record.title;
 
-// Define a function that initializes the list.
-const composeList = (texts, data) => {
+// Define a function that initializes the single-record controls.
+const composeRecordControls = (texts, actions) => {
+  const target = document.getElementById('specific').lastElementChild;
+  target.textContent = '';
+  for (const action of actions) {
+    const newControl
+      = document.getElementById('template-3').firstElementChild.cloneNode(true);
+    newControl.id = 'control-' + action;
+    newControl.firstElementChild.textContent = texts['button_' + action];
+    newControl.lastElementChild.textContent = texts['legend_' + action];
+    target.appendChild(newControl);
+  }
+};
+
+// Define a function that creates the list from existing data.
+const listCreate = (texts, data) => {
   const actions = ['detail'];
   const target = document.getElementById('list');
+  target.removeAttribute('class');
   target.textContent = '';
   const requiredProperties = [
     '_id', 'title', 'author', 'image', 'releaseDate', '__v'
@@ -76,44 +107,41 @@ const composeList = (texts, data) => {
   }
 };
 
-// Define a function that initializes the single-record controls.
-const composeRecordControls = (texts, actions) => {
-  const target = document.getElementById('specific').lastElementChild;
-  target.textContent = '';
-  for (const action of actions) {
-    const newControl
-      = document.getElementById('template-3').firstElementChild.cloneNode(true);
-    newControl.id = 'control-' + action;
-    newControl.firstElementChild.textContent = texts['button_' + action];
-    newControl.lastElementChild.textContent = texts['legend_' + action];
-    target.appendChild(newControl);
+// Define a function that destroys the list and hides its section.
+const listDestroy = () => {
+  const target = document.getElementById('list');
+  target.className = 'invisible';
+  target.textContent = '[template 1 results]';
+};
+
+// Define a function that toggles the existence and display of the list.
+const listToggle = texts => {
+  const controlDiv = document.getElementById('control-list-toggle');
+  if (document.getElementById('list').className === 'invisible') {
+    $.ajax('http://mutably.herokuapp.com/books')
+    .done(data => {
+      listCreate(texts, data);
+      controlDiv.firstElementChild.textContent = texts.button_list_hide;
+      controlDiv.lastElementChild.textContent = texts.legend_list_hide;
+      return '';
+    })
+    .fail(err => {
+      console.error(
+        'ERROR:\n'
+        + err.status + '\n'
+        + err.statusText + '\n'
+        + err.responseText
+      );
+    });
+  }
+  else {
+    listDestroy();
+    controlDiv.firstElementChild.textContent = texts.button_list_show;
+    controlDiv.lastElementChild.textContent = texts.legend_list_show;
   }
 };
 
-// Define a function that initializes the generic section.
-const genericInit = texts => {
-  document.getElementById('title').textContent = texts.title;
-  document.getElementById('intro').innerHTML = composeIntro(texts);
-  composeGenericControls(texts);
-};
-
-// Define a function that initializes the list section.
-const listInit = texts => {
-  $.ajax('http://mutably.herokuapp.com/books')
-  .done(data => {
-    composeList(texts, data);
-    detailInit(texts, data.books[3]);
-    return '';
-  })
-  .fail(err => {
-    console.error(
-      'ERROR:\n'
-      + err.status + '\n'
-      + err.statusText + '\n'
-      + err.responseText
-    );
-  });
-};
+// === Detail Section === //
 
 // Define a function that initializes the add-record section.
 const addInit = texts => {
@@ -271,6 +299,17 @@ const deleteOne = function(id) {
 
 // /// EVENT LISTENERS /// //
 
+// Listener for page load.
+$(document).ready(function() {
+  const texts = window.texts;
+  genericInit(texts);
+  // Listener for list toggle request.
+  $('#control-list-toggle').click(event => {
+    listToggle(texts);
+    return '';
+  });
+});
+
 // Listener for record creation request.
 $('.createButton').click(function() {
   // get info from form, instead of hardcoded
@@ -299,14 +338,6 @@ $('.saveButton').click(function() {
 $('.deleteButton').click(function() {
   // get specific id
   deleteOne('599236cdbc824300112668b3');
-});
-
-// Listener for page load.
-$(document).ready(function() {
-  const texts = window.texts;
-  genericInit(texts);
-  listInit(texts);
-  // detailInit(texts);
 });
 
 // using jquery to change the DOM
