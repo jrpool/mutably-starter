@@ -114,7 +114,7 @@ const listCreate = (texts, data) => {
     }
   }
   // Create a listener for these buttons.
-  $(#list).click(event => {
+  $('#list').click(event => {
     actOn('recordShow', event.target, data);
     return '';
   });
