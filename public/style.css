@@ -20,6 +20,19 @@ html {
     url('fonts/roboto/Roboto-Bold.woff2') format('woff2');
 }*/
 
+#add {
+  background-color: beige;
+}
+
+#add > div,
+#add > section {
+  margin: 0 2%;
+}
+
+#add > .instructions {
+  padding-top: 1%;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -29,13 +42,23 @@ html {
   color: white;
 }
 
-#contingent {
-  background-color: beige;
+#generic,
+#generic .collection-header,
+#generic .collection-item {
+  background-color: tan;
 }
 
-#generic,
-#generic * {
-  background-color: tan;
+#generic > .controls {
+  padding-bottom: 1%;
+}
+
+#generic > section {
+  margin: 0 2%;
+}
+
+#generic > .title {
+  margin-bottom: 2%;
+  padding-top: 1%
 }
 
 .input-field label {
@@ -48,11 +71,6 @@ html {
   line-height: 1.2;
   padding-top: 0;
   padding-bottom: 0;
-}
-
-#intro,
-#title {
-  margin: 2%;
 }
 
 #intro li.collection-header {
@@ -71,4 +89,8 @@ html {
 
 #list {
   background-color: wheat;
+}
+
+#list > div {
+  margin: 0 2%;
 }

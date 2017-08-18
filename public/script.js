@@ -13,6 +13,7 @@ const composeIntro = texts => {
     'option_list',
     'option_detail',
     'option_amend',
+    'option_branch',
     'option_add',
     'option_remove'
   ];
@@ -63,6 +64,27 @@ const summary = record =>
   + (record.author.replace(/^.* /, '') || '') + ', '
   + record.title;
 
+// Define a function that acts on an event.
+const actOn = (action, target, data) => {
+  const texts = window.texts;
+  if (action === 'add_cancel') {
+    addDestroy();
+  }
+  else if (action === 'add_submit') {
+    addSubmit();
+  }
+  else if (action === 'recordShow') {
+    if (target.id) {
+      const record = data.books.filter(
+        record => record.id === target.id.replace(/^.+-/, '')
+      );
+      if (record) {
+        detailCreate(texts, record);
+      }
+    }
+  }
+};
+
 // Define a function that creates the list from existing data.
 const listCreate = (texts, data) => {
   const actions = ['detail'];
@@ -91,6 +113,11 @@ const listCreate = (texts, data) => {
       target.appendChild(listItem);
     }
   }
+  // Create a listener for these buttons.
+  $(#list).click(event => {
+    actOn('recordShow', event.target, data);
+    return '';
+  });
 };
 
 // Define a function that destroys the list and hides its section.
@@ -129,9 +156,20 @@ const listToggle = texts => {
 
 // === Detail Section === //
 
-// Define a function that initializes the single-record controls.
-const recordControlsCreate = (texts, actions) => {
-  const target = document.getElementById('specific').lastElementChild;
+// Define a function that destroys and hides the add-record section.
+const addDestroy = () => {
+  const target = document.getElementById('add');
+  target.className = 'invisible';
+  target.children[0].textContent = '[instructions]';
+  target.children[1].textContent = '[template 2 results]';
+  target.children[2].textContent = '[template 3 results]';
+  document.getElementById('control-add').removeAttribute('class');
+};
+
+// Define a function that creates the add-record controls.
+const addControlsCreate = (texts) => {
+  const actions = ['add_submit', 'add_cancel'];
+  const target = document.getElementById('add').lastElementChild;
   target.textContent = '';
   for (const action of actions) {
     const newControl
@@ -148,9 +186,9 @@ const recordControlsCreate = (texts, actions) => {
   }
 };
 
-// Define a function that creates the add-record section.
+// Define a function that creates and displays the add-record section.
 const addCreate = texts => {
-  const target = document.getElementById('specific');
+  const target = document.getElementById('add');
   target.removeAttribute('class');
   target.firstElementChild.textContent = texts.instructions_add;
   const itemProperties = [
@@ -178,23 +216,36 @@ const addCreate = texts => {
     label.textContent = texts['property_label_' + itemProperty[0]];
     propertyTarget.appendChild(property);
   }
-  recordControlsCreate(texts, ['add_submit', 'add_cancel']);
+  addControlsCreate(texts);
   document.getElementById('control-add').className = 'invisible';
+
 };
 
-// Define a function that destroys and hides the add-record section.
-const addDestroy = () => {
-  const target = document.getElementById('specific');
-  target.className = 'invisible';
-  target.children[0].textContent = '[instructions]';
-  target.children[1].textContent = '[template 2 results]';
-  target.children[2].textContent = '[template 3 results]';
-  document.getElementById('control-add').removeAttribute('class');
+// Define a function that creates the record-detail controls.
+const detailControlsCreate = (texts) => {
+  const actions = [
+    'detail_amend', 'detail_submit', 'detail_remove', 'detail_cancel'
+  ];
+  const target = document.getElementById('detail').lastElementChild;
+  target.textContent = '';
+  for (const action of actions) {
+    const newControl
+      = document.getElementById('template-3').firstElementChild.cloneNode(true);
+    newControl.id = 'control-' + action;
+    newControl.firstElementChild.textContent = texts['button_' + action];
+    newControl.lastElementChild.textContent = texts['legend_' + action];
+    target.appendChild(newControl);
+    // Create a listener for this button.
+    $('#control-' + action).click(event => {
+      actOn(action);
+      return '';
+    });
+  }
 };
 
-// Define a function that initializes the single-record detail section.
-const detailInit = (texts, record) => {
-  const target = document.getElementById('specific');
+// Define a function that creates a single-record detail section.
+const detailCreate = (texts, record) => {
+  const target = document.getElementById('detail');
   target.removeAttribute('class');
   target.firstElementChild.textContent
     = texts.instructions_detail.replace(/«id»/, record._id);
@@ -223,15 +274,9 @@ const detailInit = (texts, record) => {
     label.textContent = texts['property_label_' + itemProperty[0]];
     propertyTarget.appendChild(property);
   }
-  composeRecordControls(texts, ['amend', 'remove']);
+  detailControlsCreate(texts, ['amend', 'remove']);
 };
 
-// Define a function that acts on an event.
-const actOn = (texts, action) => {
-  if (action === 'add_cancel') {
-    addDestroy();
-  }
-};
 // /// EVENT HANDLERS /// //
 
 let currentBook;
