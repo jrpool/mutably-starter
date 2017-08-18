@@ -73,16 +73,6 @@ const actOn = (action, target, data) => {
   else if (action === 'add_submit') {
     addSubmit();
   }
-  else if (action === 'recordShow') {
-    if (target.id) {
-      const record = data.books.filter(
-        record => record.id === target.id.replace(/^.+-/, '')
-      );
-      if (record) {
-        detailCreate(texts, record);
-      }
-    }
-  }
 };
 
 // Define a function that creates the list from existing data.
@@ -115,8 +105,21 @@ const listCreate = (texts, data) => {
   }
   // Create a listener for these buttons.
   $('#list').click(event => {
-    actOn('recordShow', event.target, data);
-    return '';
+    const id = event.target.id;
+    if (id) {
+      const selectedRecords = window.data.books.filter(
+        record => record._id === id.replace(/^.+-/, '')
+      );
+      if (selectedRecords.length === 1) {
+        detailCreate(texts, selectedRecords[0]);
+      }
+      else {
+        console.log('Error: No record.');
+      }
+    }
+    else {
+      console.log('Error: no ID.');
+    }
   });
 };
 
@@ -133,6 +136,7 @@ const listToggle = texts => {
   if (document.getElementById('list').className === 'invisible') {
     $.ajax('http://mutably.herokuapp.com/books')
     .done(data => {
+      window.data = data;
       listCreate(texts, data);
       controlDiv.firstElementChild.textContent = texts.button_list_hide;
       controlDiv.lastElementChild.textContent = texts.legend_list_hide;

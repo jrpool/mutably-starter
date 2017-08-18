@@ -46,5 +46,5 @@ window.texts = {
   'legend_detail_amend': 'Amend these details',
   'legend_detail_submit': 'Submit these amendments',
   'legend_detail_remove': 'Remove this book from the list',
-  'legend_detail_cancel': 'Do amend this book’s details'
+  'legend_detail_cancel': 'Do not amend this book’s details'
 };
