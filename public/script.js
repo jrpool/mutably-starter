@@ -63,20 +63,6 @@ const summary = record =>
   + (record.author.replace(/^.* /, '') || '') + ', '
   + record.title;
 
-// Define a function that initializes the single-record controls.
-const composeRecordControls = (texts, actions) => {
-  const target = document.getElementById('specific').lastElementChild;
-  target.textContent = '';
-  for (const action of actions) {
-    const newControl
-      = document.getElementById('template-3').firstElementChild.cloneNode(true);
-    newControl.id = 'control-' + action;
-    newControl.firstElementChild.textContent = texts['button_' + action];
-    newControl.lastElementChild.textContent = texts['legend_' + action];
-    target.appendChild(newControl);
-  }
-};
-
 // Define a function that creates the list from existing data.
 const listCreate = (texts, data) => {
   const actions = ['detail'];
@@ -143,10 +129,29 @@ const listToggle = texts => {
 
 // === Detail Section === //
 
-// Define a function that initializes the add-record section.
-const addInit = texts => {
+// Define a function that initializes the single-record controls.
+const recordControlsCreate = (texts, actions) => {
+  const target = document.getElementById('specific').lastElementChild;
+  target.textContent = '';
+  for (const action of actions) {
+    const newControl
+      = document.getElementById('template-3').firstElementChild.cloneNode(true);
+    newControl.id = 'control-' + action;
+    newControl.firstElementChild.textContent = texts['button_' + action];
+    newControl.lastElementChild.textContent = texts['legend_' + action];
+    target.appendChild(newControl);
+    // Create a listener for this button.
+    $('#control-' + action).click(event => {
+      actOn(action);
+      return '';
+    });
+  }
+};
+
+// Define a function that creates the add-record section.
+const addCreate = texts => {
   const target = document.getElementById('specific');
-  target.display = 'inherit';
+  target.removeAttribute('class');
   target.firstElementChild.textContent = texts.instructions_add;
   const itemProperties = [
     ['title', 'text', 80],
@@ -173,7 +178,18 @@ const addInit = texts => {
     label.textContent = texts['property_label_' + itemProperty[0]];
     propertyTarget.appendChild(property);
   }
-  composeRecordControls(texts, ['submit', 'cancel']);
+  recordControlsCreate(texts, ['add_submit', 'add_cancel']);
+  document.getElementById('control-add').className = 'invisible';
+};
+
+// Define a function that destroys and hides the add-record section.
+const addDestroy = () => {
+  const target = document.getElementById('specific');
+  target.className = 'invisible';
+  target.children[0].textContent = '[instructions]';
+  target.children[1].textContent = '[template 2 results]';
+  target.children[2].textContent = '[template 3 results]';
+  document.getElementById('control-add').removeAttribute('class');
 };
 
 // Define a function that initializes the single-record detail section.
@@ -210,6 +226,12 @@ const detailInit = (texts, record) => {
   composeRecordControls(texts, ['amend', 'remove']);
 };
 
+// Define a function that acts on an event.
+const actOn = (texts, action) => {
+  if (action === 'add_cancel') {
+    addDestroy();
+  }
+};
 // /// EVENT HANDLERS /// //
 
 let currentBook;
@@ -306,6 +328,11 @@ $(document).ready(function() {
   // Listener for list toggle request.
   $('#control-list-toggle').click(event => {
     listToggle(texts);
+    return '';
+  });
+  // Listener for record addition request.
+  $('#control-add').click(event => {
+    addCreate(texts);
     return '';
   });
 });
