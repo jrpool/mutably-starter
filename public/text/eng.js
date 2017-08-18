@@ -39,12 +39,14 @@ window.texts = {
   'legend_add_submit': 'Add this book to the list',
   'legend_add_cancel': 'Close this form and do not add a book',
   'instructions_detail': 'This is book «id».',
-  'button_detail_amend': 'Amend',
-  'button_detail_submit': 'Submit',
-  'button_detail_remove': 'Remove',
+  'button_detail_edit': 'Edit Book Details',
+  'button_detail_submit': 'Submit Amendment',
+  'button_detail_version': 'Submit as New Book',
+  'button_detail_remove': 'Remove from List',
   'button_detail_cancel': 'Cancel',
-  'legend_detail_amend': 'Amend these details',
-  'legend_detail_submit': 'Submit these amendments',
+  'legend_detail_edit': 'Edit these details for possible submission',
+  'legend_detail_submit': 'Make this amendment to this book in the list',
+  'legend_detail_version': 'Add these details to the list as a new book',
   'legend_detail_remove': 'Remove this book from the list',
-  'legend_detail_cancel': 'Do not amend this book’s details'
+  'legend_detail_cancel': 'Stop displaying this book’s details'
 };

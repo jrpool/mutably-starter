@@ -65,13 +65,12 @@ const summary = record =>
   + record.title;
 
 // Define a function that acts on an event.
-const actOn = (action, target, data) => {
-  const texts = window.texts;
+const actOn = (action) => {
   if (action === 'add_cancel') {
     addDestroy();
   }
   else if (action === 'add_submit') {
-    addSubmit();
+    // addSubmit();
   }
 };
 
@@ -158,7 +157,7 @@ const listToggle = texts => {
   }
 };
 
-// === Detail Section === //
+// === Add-Record Section === //
 
 // Define a function that destroys and hides the add-record section.
 const addDestroy = () => {
@@ -183,7 +182,7 @@ const addControlsCreate = (texts) => {
     newControl.lastElementChild.textContent = texts['legend_' + action];
     target.appendChild(newControl);
     // Create a listener for this button.
-    $('#control-' + action).click(event => {
+    $('#control-' + action).click(() => {
       actOn(action);
       return '';
     });
@@ -225,11 +224,34 @@ const addCreate = texts => {
 
 };
 
+// === Record-Detail Section === //
+
+// Define a function that destroys and hides the record-detail section.
+const recordEditForm = () => {
+  const detailPropertySection = document.getElementById('detail').children[1];
+  const detailPropertyDivs = detailPropertySection.children;
+  for (const div of detailPropertyDivs) {
+    const input = div.firstElementChild;
+    input.removeAttribute('readonly');
+    input.required = '';
+  }
+  const detailControlSection = document.getElementById('detail').children[2];
+  detailControlSection.removeChild(
+    document.getElementById('control-detail_edit')
+  );
+};
+
+// Define a function that destroys and hides the record-detail section.
+const detailDestroy = () => {
+  const target = document.getElementById('detail');
+  target.className = 'invisible';
+  target.children[0].textContent = '[instructions]';
+  target.children[1].textContent = '[template 2 results]';
+  target.children[2].textContent = '[template 3 results]';
+};
+
 // Define a function that creates the record-detail controls.
-const detailControlsCreate = (texts) => {
-  const actions = [
-    'detail_amend', 'detail_submit', 'detail_remove', 'detail_cancel'
-  ];
+const detailControlsCreate = (texts, record, actions) => {
   const target = document.getElementById('detail').lastElementChild;
   target.textContent = '';
   for (const action of actions) {
@@ -239,12 +261,20 @@ const detailControlsCreate = (texts) => {
     newControl.firstElementChild.textContent = texts['button_' + action];
     newControl.lastElementChild.textContent = texts['legend_' + action];
     target.appendChild(newControl);
-    // Create a listener for this button.
-    $('#control-' + action).click(event => {
-      actOn(action);
-      return '';
-    });
   }
+  // Create listeners for these buttons.
+  $('#control-' + actions[0]).click(() => {
+    recordEditForm();
+    return '';
+  });
+  // $('#control-' + actions[3]).click(event => {
+  //   recordRemove(event);
+  //   return '';
+  // });
+  $('#control-' + actions[2]).click(() => {
+    detailDestroy();
+    return '';
+  });
 };
 
 // Define a function that creates a single-record detail section.
@@ -278,8 +308,20 @@ const detailCreate = (texts, record) => {
     label.textContent = texts['property_label_' + itemProperty[0]];
     propertyTarget.appendChild(property);
   }
-  detailControlsCreate(texts, ['amend', 'remove']);
+  detailControlsCreate(texts, record, [
+    'detail_edit', 'detail_remove', 'detail_cancel'
+  ]);
 };
+
+// Omitted above: 'detail_submit', 'detail_version'
+// $('#control-' + actions[1]).click(event => {
+//   recordAmendSubmit(event);
+//   return '';
+// });
+// $('#control-' + actions[2]).click(event => {
+//   recordVersionSubmit(event);
+//   return '';
+// });
 
 // /// EVENT HANDLERS /// //
 
@@ -375,12 +417,12 @@ $(document).ready(function() {
   const texts = window.texts;
   genericInit(texts);
   // Listener for list toggle request.
-  $('#control-list-toggle').click(event => {
+  $('#control-list-toggle').click(() => {
     listToggle(texts);
     return '';
   });
   // Listener for record addition request.
-  $('#control-add').click(event => {
+  $('#control-add').click(() => {
     addCreate(texts);
     return '';
   });

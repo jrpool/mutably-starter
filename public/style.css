@@ -2,39 +2,35 @@ html {
   font-family: GillSans, Calibri, Trebuchet, Helvetica, sans-serif;
 }
 
-/*@font-face {
-  font-family: 'Roboto';
-  src:
-    local('Roboto'),url(),
-    local('Roboto-Regular'),
-    url('fonts/roboto/Roboto-Regular.woff') format('woff'),
-    url('fonts/roboto/Roboto-Regular.woff2') format('woff2');
+* {
+  box-sizing: border-box;
 }
 
-@font-face {
-  font-family: 'Roboto';
-  src:
-    local('Roboto Bold'),url(),
-    local('Roboto-Bold'),
-    url('fonts/roboto/Roboto-Bold.woff') format('woff'),
-    url('fonts/roboto/Roboto-Bold.woff2') format('woff2');
-}*/
-
 #add {
-  background-color: beige;
+  background-color: lightgoldenrodyellow;
+}
+
+#add > .controls > div:last-child,
+#detail > .controls > div:last-child,
+#list > div:last-child {
+  padding-bottom: 1%;
 }
 
 #add > div,
-#add > section {
+#add > section,
+#detail > div,
+#detail > section {
   margin: 0 2%;
 }
 
-#add > .instructions {
+#add > .instructions,
+#detail > div:first-child,
+#list > div:first-child {
   padding-top: 1%;
 }
 
-* {
-  box-sizing: border-box;
+#detail {
+  background-color: beige;
 }
 
 #generic button.generic {
@@ -62,7 +58,7 @@ html {
 }
 
 .input-field label {
-  color: #773;
+  color: #552;
 }
 
 #intro,
