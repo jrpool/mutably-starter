@@ -198,11 +198,9 @@ const addSubmit = () => {
       return true;
     }
     else {
-      console.log(propertyID + ' valid.');
       return false;
     }
   })) {
-    console.log('Submitting');
     $.ajax({
       url: 'http://mutably.herokuapp.com/books',
       type: 'POST',
