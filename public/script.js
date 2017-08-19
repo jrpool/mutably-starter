@@ -302,6 +302,45 @@ const recordDestroy = () => {
 };
 
 /*
+  Define a function that submits an amended record for replacement of an
+  existing record in the list.
+*/
+const recordAmendSubmit = texts => {
+  const propertyIDs = ['title', 'author', 'image', 'releaseDate'];
+  if (propertyIDs.map(propertyID => {
+    const target = document.getElementById('detail_' + propertyID);
+    if (!target.value) {
+      errorAdd(texts, target, 'missing');
+      return false;
+    }
+    else if (target.className.includes('invalid')) {
+      errorAdd(texts, target, 'invalid');
+      return false;
+    }
+    else {
+      errorDestroy(target);
+      return true;
+    }
+  }).every(element => element)) {
+    $.ajax({
+      url:
+        'http://mutably.herokuapp.com/books/'
+        + document.getElementById('detail__id').value,
+      type: 'PUT',
+      cache: false,
+      data: {
+        title: document.getElementById('detail_title').value,
+        author: document.getElementById('detail_author').value,
+        image: document.getElementById('detail_image').value,
+        releaseDate: document.getElementById('detail_releaseDate').value
+      },
+      success: detailDestroy,
+      error: response => {console.log('Error: ' + response.responseText);}
+    });
+  }
+};
+
+/*
   Define a function that submits an amended record for addition to the list
   as a new record.
 */
@@ -372,13 +411,13 @@ const detailEditForm = (texts, record) => {
     document.getElementById('control-detail_remove')
   );
   specificControlsCreate('detail', texts, record, [
-    'detail_submit', 'detail_version', 'detail_cancel'
+    'detail_amend', 'detail_version', 'detail_cancel'
   ]);
   // Create listeners for the created buttons.
-  // $('#control-detail_submit').click(event => {
-  //   detailAmendSubmit(event);
-  //   return '';
-  // });
+  $('#control-detail_amend').click(event => {
+    recordAmendSubmit(event);
+    return '';
+  });
   $('#control-detail_version').click(() => {
     recordVersionSubmit(texts);
     return '';
