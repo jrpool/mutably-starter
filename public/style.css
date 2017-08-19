@@ -3,37 +3,66 @@ html {
 }
 
 .invisible {
-  display: none;
+  display:none;
 }
-/*@font-face {
-  font-family: 'Roboto';
-  src:
-    local('Roboto'),url(),
-    local('Roboto-Regular'),
-    url('fonts/roboto/Roboto-Regular.woff') format('woff'),
-    url('fonts/roboto/Roboto-Regular.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Roboto';
-  src:
-    local('Roboto Bold'),url(),
-    local('Roboto-Bold'),
-    url('fonts/roboto/Roboto-Bold.woff') format('woff'),
-    url('fonts/roboto/Roboto-Bold.woff2') format('woff2');
-}*/
 
 * {
   box-sizing: border-box;
 }
 
-#contingent {
-  background-color: beige;
+#add {
+  background-color: #ffc;
+}
+
+#add > .controls > div:last-child,
+#detail > .controls > div:last-child,
+#list > div:last-child {
+  padding-bottom: 1%;
+}
+
+#add > div,
+#add > section,
+#detail > div,
+#detail > section {
+  margin: 0 2%;
+}
+
+#add > .instructions,
+#detail > div:first-child,
+#list > div:first-child {
+  padding-top: 1%;
+}
+
+#detail {
+  background-color: #fdb;
+}
+
+#generic button.generic {
+  background-color: saddlebrown;
+  color: white;
 }
 
 #generic,
-#generic * {
+#generic .collection-header,
+#generic .collection-item {
   background-color: tan;
+}
+
+#generic > .controls {
+  padding-bottom: 1%;
+}
+
+#generic > section {
+  margin: 0 2%;
+}
+
+#generic > .title {
+  margin-bottom: 2%;
+  padding-top: 1%
+}
+
+.input-field label {
+  color: #552;
 }
 
 #intro,
@@ -42,11 +71,6 @@ html {
   line-height: 1.2;
   padding-top: 0;
   padding-bottom: 0;
-}
-
-#intro,
-#title {
-  margin: 2%;
 }
 
 #intro li.collection-header {
@@ -59,6 +83,18 @@ html {
   font-weight: bold;
 }
 
+.invisible {
+  display: none;
+}
+
 #list {
-  background-color: wheat;
+  background-color: khaki;
+}
+
+#list > div {
+  margin: 0 2%;
+}
+
+::placeholder {
+  color: teal;
 }
