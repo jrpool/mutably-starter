@@ -152,7 +152,7 @@ const listToggle = texts => {
 // Define a function that makes a specified input element editable.
 const makeEditable = inputElement => {
   inputElement.removeAttribute('readonly');
-  inputElement.required = '';
+  inputElement.setAttribute('required', '');
   const editIcon = document.createElement('i');
   editIcon.className = 'material-icons prefix';
   editIcon.innerHTML = 'edit';
@@ -188,12 +188,38 @@ const addDestroy = () => {
 
 // Define a function that submits a new record for addition to the list.
 const addSubmit = () => {
-  const target = document.getElementById('add');
-  target.className = 'invisible';
-  target.children[0].textContent = '[instructions]';
-  target.children[1].textContent = '[template 2 results]';
-  target.children[2].textContent = '[template 3 results]';
-  document.getElementById('control-add').removeAttribute('class');
+  const propertyIDs = [
+    'title', 'author', 'image', 'releaseDate', '__v'
+  ];
+  if (!propertyIDs.some(propertyID => {
+    const target = document.getElementById('add_' + propertyID);
+    if (target.className.includes('invalid')) {
+      console.log('Error: ' + propertyID + ' invalid.');
+      return true;
+    }
+    else {
+      console.log(propertyID + ' valid.');
+      return false;
+    }
+  })) {
+    console.log('Submitting');
+    $.ajax({
+      url: 'http://mutably.herokuapp.com/books',
+      type: 'POST',
+      cache: false,
+      data: {
+        title: document.getElementById('add_title').value,
+        author: document.getElementById('add_author').value,
+        image: document.getElementById('add_image').value,
+        releaseDate: document.getElementById('add_releaseDate').value,
+        __v: document.getElementById('add___v').value
+      },
+      success: addDestroy,
+      error: response => {console.log('Error: ' + response.responseText);}
+    });
+    // contentType: 'application/json; charset=utf-8',
+    // dataType: 'json',
+}
 };
 
 // Define a function that creates and displays the add-record section.
@@ -214,10 +240,8 @@ const addCreate = texts => {
     const property = document.getElementById('template-2')
       .firstElementChild.cloneNode(true);
     const input = property.firstElementChild;
-    input.id = 'add_' + texts['property_name_' + itemProperty[0]];
-    input.name = texts['property_name_' + itemProperty[0]];
+    input.id = input.name = 'add_' + itemProperty[0];
     input.type = itemProperty[1];
-    input.removeAttribute('value');
     input.placeholder = texts['property_placeholder_' + itemProperty[0]];
     input.size = input.maxLength = itemProperty[2];
     makeEditable(input);
@@ -292,7 +316,7 @@ const detailCreate = (texts, record) => {
     ['title', 'text', 80],
     ['author', 'text', 80],
     ['image', 'url', 80],
-    ['releaseDate', 'text', 17],
+    ['releaseDate', 'date', 10],
     ['__v', 'number', 2]
   ];
   const propertyTarget = target.children[1];
@@ -301,8 +325,7 @@ const detailCreate = (texts, record) => {
     const property = document.getElementById('template-2')
       .firstElementChild.cloneNode(true);
     const input = property.firstElementChild;
-    input.id = 'record_' + texts['property_name_' + itemProperty[0]];
-    input.name = texts['property_name_' + itemProperty[0]];
+    input.id = input.name = 'detail_' + itemProperty[0];
     input.removeAttribute('required');
     input.type = itemProperty[1];
     input.value = record[itemProperty[0]];
@@ -331,137 +354,124 @@ const detailCreate = (texts, record) => {
   });
 };
 
-// /// EVENT HANDLERS /// //
-
-let currentBook;
-
-// Define a function that displays a specified error.
-const showError = err => {
-  console.error(
-    'ERROR:\n'
-    + err.status + '\n'
-    + err.statusText + '\n'
-    + err.responseText
-  );
-};
-
-// Define a function that adds a specified book to the list.
-const addOne = function(title, author, image, date) {
-  $.ajax({
-    url: 'http://mutably.herokuapp.com/books',
-    method: 'post',
-    data: {
-      title: title,
-      author: author,
-      image: image,
-      releaseDate: date
-    }
-  })
-  .done(data => {
-    // append this one to the bottom of the list of books
-    console.log(JSON.stringify(data.title) + ' has been added');
-  })
-  .fail(showError);
-};
-
-/*
-  Define a function that retrieves and displays the details of a specified
-  book.
-*/
-const getOne = function(id) {
-  $.ajax(`http://mutably.herokuapp.com/books/${id}`)
-  .done(bookObject => {
-    currentBook = bookObject;
-    // show this one (with the button for editing+)
-  })
-  .fail(showError);
-};
-
-/*
-  Define a function that amends the record of a specified book in the list,
-  unless the record when last retrieved is no longer identical to the
-  record now in the list.
-*/
-const updateOne = function(id, thingToUpdate, replacementValue) {
-  $.ajax({
-    url: `http://mutably.herokuapp.com/books/${id}`,
-    method: 'get',
-  })
-  .done(bookFromServerAsObject => {
-    // Object.entries is an array of arrays of keys and values for that obj
-    const currentBookAsArrayToCompare = Object.entries(currentBook);
-    const bookFromServerAsArrayToCompare = Object.entries(bookFromServerAsObject);
-    if(currentBookAsArrayToCompare.toString() === bookFromServerAsArrayToCompare.toString()) {
-      currentBook[thingToUpdate] = replacementValue;
-      $.ajax({
-        url: `http://mutably.herokuapp.com/books/${id}`,
-        method: 'put',
-        data: currentBook
-      });
-      console.log(thingToUpdate + ' was updated');
-    }
-    else {
-      $('#revalert').html('Uh-oh, looks like someone else changed something already. Take a look at what it says now.');
-      console.log('something’s wrong');
-    }
-  })
-  .fail(showError);
-};
-
-// Define a function that removes the record of a specified book from the list.
-const deleteOne = function(id) {
-  $.ajax({
-    url: `http://mutably.herokuapp.com/books/${id}`,
-    method: 'delete'
-  })
-  .done(() => {console.log('book #' + id + ' was successfully deleted');})
-  .fail(showError);
-};
-
-// /// EVENT LISTENERS /// //
+// /// PAGE /// //
 
 // Listener for page load.
 $(document).ready(function() {
   const texts = window.texts;
   genericInit(texts);
-  // Listener for list toggle request.
+  // Create listeners for the created buttons.
   $('#control-list-toggle').click(() => {
     listToggle(texts);
     return '';
   });
-  // Listener for record addition request.
   $('#control-add').click(() => {
     addCreate(texts);
     return '';
   });
 });
 
+// /// EVENT HANDLERS /// //
+
+// let currentBook;
+
+// Define a function that displays a specified error.
+// const showError = err => {
+//   console.error(
+//     'ERROR:\n'
+//     + err.status + '\n'
+//     + err.statusText + '\n'
+//     + err.message
+//   );
+// };
+
+/*
+  Define a function that retrieves and displays the details of a specified
+  book.
+*/
+// const getOne = function(id) {
+//   $.ajax(`http://mutably.herokuapp.com/books/${id}`)
+//   .done(bookObject => {
+//     currentBook = bookObject;
+//     // show this one (with the button for editing+)
+//   })
+//   .fail(showError);
+// };
+
+/*
+  Define a function that amends the record of a specified book in the list,
+  unless the record when last retrieved is no longer identical to the
+  record now in the list.
+*/
+// const updateOne = function(id, thingToUpdate, replacementValue) {
+//   $.ajax({
+//     url: `http://mutably.herokuapp.com/books/${id}`,
+//     method: 'get',
+//   })
+//   .done(bookFromServerAsObject => {
+//     // Object.entries is an array of arrays of keys and values for that obj
+//     const currentBookAsArrayToCompare = Object.entries(currentBook);
+//     const bookFromServerAsArrayToCompare = Object.entries(bookFromServerAsObject);
+//     if(currentBookAsArrayToCompare.toString() === bookFromServerAsArrayToCompare.toString()) {
+//       currentBook[thingToUpdate] = replacementValue;
+//       $.ajax({
+//         url: `http://mutably.herokuapp.com/books/${id}`,
+//         method: 'put',
+//         data: currentBook
+//       });
+//       console.log(thingToUpdate + ' was updated');
+//     }
+//     else {
+//       $('#revalert').html('Uh-oh, looks like someone else changed something already. Take a look at what it says now.');
+//       console.log('something’s wrong');
+//     }
+//   })
+//   .fail(showError);
+// };
+
+// Define a function that removes the record of a specified book from the list.
+// const deleteOne = function(id) {
+//   $.ajax({
+//     url: `http://mutably.herokuapp.com/books/${id}`,
+//     method: 'delete'
+//   })
+//   .done(() => {console.log('book #' + id + ' was successfully deleted');})
+//   .fail(showError);
+// };
+
+// /// EXECUTION /// //
+
 // Listener for record creation request.
-$('.createButton').click(function() {
-  // get info from form, instead of hardcoded
-  addOne('Nexus', 'Ramez Naam', 'http://modernmrsdarcy.com/wp-content/uploads/2013/07/best-book.png', 'April 25, 2020');
-});
+// $('.createButton').click(function() {
+//   // get info from form, instead of hardcoded
+//   addOne('Nexus', 'Ramez Naam', 'http://modernmrsdarcy.com/wp-content/uploads/2013/07/best-book.png', 'April 25, 2020');
+// });
 
 // Listener for record editing request.
 // $('.specific').click(function() {
 //   //placeholder
 // });
-$('.editButton').click(function() {
-  // item text gets replaced with the pre-populated, editable form.
-  // get specific id from the button click
-  getOne('599362ca5113cf0011283334');
-  // edit button becomes a save button
-});
+// $('.editButton').click(function() {
+//   // item text gets replaced with the pre-populated, editable form.
+//   // get specific id from the button click
+//   getOne('599362ca5113cf0011283334');
+//   // edit button becomes a save button
+// });
 
 // Listener for amendment submission request.
-$('.saveButton').click(function() {
-  // make this function get filled in by what I get from the form
-  updateOne('599362ca5113cf0011283334', 'title', 'Les Superhappy');
-  // once success message comes back from the server, input gets replaced with the updated text
-});
+// $('.saveButton').click(function() {
+//   // make this function get filled in by what I get from the form
+//   updateOne('599362ca5113cf0011283334', 'title', 'Les Superhappy');
+//   // once success message comes back from the server, input gets replaced with the updated text
+// });
 
 // Listener for removal request.
-$('.deleteButton').click(function() {
-  // get specific id
-  deleteOne('599236cdbc824300112668b3');
-});
+// $('.deleteButton').click(function() {
+//   // get specific id
+//   deleteOne('599236cdbc824300112668b3');
+// });
+
+// using jquery to change the DOM
+//   var p = $('<p>');
+//   p.html(book.title + ' by ' + book.author);
+//   $('body').append(p);
