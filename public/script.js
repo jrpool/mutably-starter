@@ -93,7 +93,7 @@ const listCreate = (texts, data) => {
         .getElementById('template-1')
         .firstElementChild
         .cloneNode(true);
-      listItem.id.replace(/\[_id\]/, record._id);
+      listItem.id = listItem.id.replace(/\[_id\]/, record._id);
       const buttonTemplate
         = listItem.removeChild(listItem.firstElementChild);
       for (const action of actions) {
@@ -279,6 +279,40 @@ const addCreate = texts => {
 
 // === Record-Detail Section === //
 
+// Define a function that destroys and hides the record-detail section.
+const detailDestroy = () => {
+  const target = document.getElementById('detail');
+  target.className = 'invisible';
+  target.children[0].textContent = '[instructions]';
+  target.children[1].textContent = '[template 2 results]';
+  target.children[2].textContent = '[template 3 results]';
+};
+
+// Define a function that destroys and hides the record-detail section.
+const recordDestroy = () => {
+  const recordID = document.getElementById('detail__id').value;
+  detailDestroy();
+  const exSummary = document.getElementById('summary-' + recordID);
+  if (exSummary) {
+    document.getElementById('list').removeChild(exSummary);
+  }
+};
+
+// Define a function that submits a request to remove a record from the list.
+const recordRemove = () => {
+  const recordID = document.getElementById('detail__id').value;
+  $.ajax({
+    url: 'http://mutably.herokuapp.com/books/' + recordID,
+    type: 'DELETE',
+    cache: false,
+    success: recordDestroy,
+    error: response => {console.log('Error: ' + response.responseText);}
+  });
+  // contentType: 'application/json; charset=utf-8',
+  // dataType: 'json',
+  // }
+};
+
 // Define a function that makes the record-detail section editable.
 const detailEditForm = (texts, record) => {
   const detailPropertyDiv
@@ -286,7 +320,9 @@ const detailEditForm = (texts, record) => {
   const detailPropertyDivs = detailPropertyDiv.getElementsByTagName('DIV');
   for (const div of detailPropertyDivs) {
     const input = div.getElementsByTagName('INPUT')[0];
-    if (input.id !== 'detail___v') {
+    if ([
+      'title', 'author', 'image', 'releaseDate'
+    ].includes(input.id.replace(/^detail_/, ''))) {
       makeEditable(input);
     }
   }
@@ -316,22 +352,14 @@ const detailEditForm = (texts, record) => {
   });
 };
 
-// Define a function that destroys and hides the record-detail section.
-const detailDestroy = () => {
-  const target = document.getElementById('detail');
-  target.className = 'invisible';
-  target.children[0].textContent = '[instructions]';
-  target.children[1].textContent = '[template 2 results]';
-  target.children[2].textContent = '[template 3 results]';
-};
-
 // Define a function that creates a single-record detail section.
 const detailCreate = (texts, record) => {
   const target = document.getElementById('detail');
   target.removeAttribute('class');
   target.firstElementChild.textContent
-    = texts.instructions_detail.replace(/«id»/, record._id);
+    = texts.instructions_detail;
   const itemProperties = [
+    ['_id', 'text', 24],
     ['title', 'text', 80],
     ['author', 'text', 80],
     ['image', 'url', 80],
@@ -365,10 +393,10 @@ const detailCreate = (texts, record) => {
     detailEditForm(texts, record);
     return '';
   });
-  // $('#control-detail_remove').click(event => {
-  //   recordRemove(event);
-  //   return '';
-  // });
+  $('#control-detail_remove').click(() => {
+    recordRemove();
+    return '';
+  });
   $('#control-detail_cancel').click(() => {
     detailDestroy();
     return '';

@@ -32,7 +32,7 @@ window.texts = {
   'button_add_cancel': 'Cancel',
   'legend_add_submit': 'Add this book to the list',
   'legend_add_cancel': 'Close this form and do not add a book',
-  'instructions_detail': 'This is book «id».',
+  'instructions_detail': 'Complete details of one book:',
   'button_detail_edit': 'Edit Book Details',
   'button_detail_submit': 'Submit Amendment',
   'button_detail_version': 'Submit as New Book',
