@@ -288,13 +288,53 @@ const detailDestroy = () => {
   target.children[2].textContent = '[template 3 results]';
 };
 
-// Define a function that destroys and hides the record-detail section.
+/*
+  Define a function that destroys and hides the record-detail section
+  and the summary of its record in the list.
+*/
 const recordDestroy = () => {
   const recordID = document.getElementById('detail__id').value;
   detailDestroy();
   const exSummary = document.getElementById('summary-' + recordID);
   if (exSummary) {
     document.getElementById('list').removeChild(exSummary);
+  }
+};
+
+/*
+  Define a function that submits an amended record for addition to the list
+  as a new record.
+*/
+const recordVersionSubmit = texts => {
+  const propertyIDs = ['title', 'author', 'image', 'releaseDate'];
+  if (propertyIDs.map(propertyID => {
+    const target = document.getElementById('detail_' + propertyID);
+    if (!target.value) {
+      errorAdd(texts, target, 'missing');
+      return false;
+    }
+    else if (target.className.includes('invalid')) {
+      errorAdd(texts, target, 'invalid');
+      return false;
+    }
+    else {
+      errorDestroy(target);
+      return true;
+    }
+  }).every(element => element)) {
+    $.ajax({
+      url: 'http://mutably.herokuapp.com/books',
+      type: 'POST',
+      cache: false,
+      data: {
+        title: document.getElementById('detail_title').value,
+        author: document.getElementById('detail_author').value,
+        image: document.getElementById('detail_image').value,
+        releaseDate: document.getElementById('detail_releaseDate').value
+      },
+      success: detailDestroy,
+      error: response => {console.log('Error: ' + response.responseText);}
+    });
   }
 };
 
@@ -308,9 +348,6 @@ const recordRemove = () => {
     success: recordDestroy,
     error: response => {console.log('Error: ' + response.responseText);}
   });
-  // contentType: 'application/json; charset=utf-8',
-  // dataType: 'json',
-  // }
 };
 
 // Define a function that makes the record-detail section editable.
@@ -342,10 +379,10 @@ const detailEditForm = (texts, record) => {
   //   detailAmendSubmit(event);
   //   return '';
   // });
-  // $('#control-detail_version').click(event => {
-  //   detailVersionSubmit(event);
-  //   return '';
-  // });
+  $('#control-detail_version').click(event => {
+    recordVersionSubmit(event);
+    return '';
+  });
   $('#control-detail_cancel').click(() => {
     detailDestroy();
     return '';
