@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simple Book List</title>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link type="text/css" rel="stylesheet" href="materialize.min.css"
+      media="screen,projection">
+    <link type="text/css" rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.2.1.js" defer></script>
+    <script type="text/javascript" src="text/eng.js" defer></script>
+    <script type="text/javascript" src="script.js" defer></script>
+    <script type="text/javascript" src="materialize.min.js" defer></script>
+  </head>
+  <body>
+    <main>
+    <!-- the top part -->
+      <section id="generic">
+        <section class="title">
+          <h2 id="title">[text_title]</h2>
+        </section>
+        <section class="intro">
+          <p id="intro">[text_intro]</p>
+        </section>
+        <section class="controllers">
+          <div class="controller" id="controller-[action]">
+            <button class="generic" id="controller-see_all">See All Books</button>
+            <button class="generic" id="controller-show_add_form">Add new Book</button>
+          </div>
+        </section>
+      </section>
+      <!-- end top part -->
+
+      <section id="flash_messages"></section>
+
+      <section id="listOfItemsFromAPI"><ul id="bookList"></ul></section>
+
+      <section class="invisible" id="make">
+        <form id="make">
+          <label> Title</label>
+          <input type="textarea" name="title"/>
+          <label> Author</label>
+          <input type="textarea" name="author"/>
+          <label> Image</label>
+          <input type="textarea" name="image"/>
+          <label> Date</label>
+          <input type="textarea" name="date"/>
+          <button type="submit">Submit</button>
+        </form>
+      </section>
+
+      <section class="invisible" id="detail"></section>
+
+      <section class="invisible" id="form_for_edit">
+        <form>
+          <label> Title</label>
+          <input type="textarea" id="title_to_update"/>
+          <label> Author</label>
+          <input type="textarea" id="author_to_update"/>
+          <label> Image</label>
+          <input type="textarea" id="image_to_update"/>
+          <label> Date</label>
+          <input type="textarea" id="date_to_update"/>
+          <button type="submit" id="controller-amend">Submit</button>
+        </form>
+      </section>
+
+    </main>
+  </body>
+</html>

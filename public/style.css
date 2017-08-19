@@ -2,6 +2,9 @@ html {
   font-family: GillSans, Calibri, Trebuchet, Helvetica, sans-serif;
 }
 
+.invisible {
+  display: none;
+}
 /*@font-face {
   font-family: 'Roboto';
   src:
