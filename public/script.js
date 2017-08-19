@@ -379,8 +379,8 @@ const detailEditForm = (texts, record) => {
   //   detailAmendSubmit(event);
   //   return '';
   // });
-  $('#control-detail_version').click(event => {
-    recordVersionSubmit(event);
+  $('#control-detail_version').click(() => {
+    recordVersionSubmit(texts);
     return '';
   });
   $('#control-detail_cancel').click(() => {
