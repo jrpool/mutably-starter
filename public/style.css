@@ -37,6 +37,11 @@ html {
   background-color: #fdb;
 }
 
+.error {
+  font-weight: bold;
+  color: red;
+}
+
 #generic button.generic {
   background-color: saddlebrown;
   color: white;

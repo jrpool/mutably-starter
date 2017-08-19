@@ -49,6 +49,20 @@ const composeGenericControls = texts => {
   }
 };
 
+// Define a function that adds an error message to a control’s label.
+const errorAdd = (texts, controlElement, errorKey) => {
+  const errorTarget
+    = controlElement.nextElementSibling.getElementsByClassName('error')[0];
+  errorTarget.textContent = ' ' + texts[errorKey];
+};
+
+// Define a function that destroys any error message to a control’s label.
+const errorDestroy = (controlElement) => {
+  const errorTarget
+    = controlElement.nextElementSibling.getElementsByClassName('error')[0];
+  errorTarget.textContent = '';
+};
+
 // Define a function that populates and displays the generic section.
 const genericInit = texts => {
   document.getElementById('title').textContent = texts.title;
@@ -187,20 +201,23 @@ const addDestroy = () => {
 };
 
 // Define a function that submits a new record for addition to the list.
-const addSubmit = () => {
-  const propertyIDs = [
-    'title', 'author', 'image', 'releaseDate', '__v'
-  ];
-  if (!propertyIDs.some(propertyID => {
+const addSubmit = texts => {
+  const propertyIDs = ['title', 'author', 'image', 'releaseDate'];
+  if (propertyIDs.map(propertyID => {
     const target = document.getElementById('add_' + propertyID);
-    if (target.className.includes('invalid')) {
-      console.log('Error: ' + propertyID + ' invalid.');
-      return true;
-    }
-    else {
+    if (!target.value) {
+      errorAdd(texts, target, 'missing');
       return false;
     }
-  })) {
+    else if (target.className.includes('invalid')) {
+      errorAdd(texts, target, 'invalid');
+      return false;
+    }
+    else {
+      errorDestroy(target);
+      return true;
+    }
+  }).every(element => element)) {
     $.ajax({
       url: 'http://mutably.herokuapp.com/books',
       type: 'POST',
@@ -209,15 +226,14 @@ const addSubmit = () => {
         title: document.getElementById('add_title').value,
         author: document.getElementById('add_author').value,
         image: document.getElementById('add_image').value,
-        releaseDate: document.getElementById('add_releaseDate').value,
-        __v: document.getElementById('add___v').value
+        releaseDate: document.getElementById('add_releaseDate').value
       },
       success: addDestroy,
       error: response => {console.log('Error: ' + response.responseText);}
     });
     // contentType: 'application/json; charset=utf-8',
     // dataType: 'json',
-}
+  }
 };
 
 // Define a function that creates and displays the add-record section.
@@ -229,8 +245,7 @@ const addCreate = texts => {
     ['title', 'text', 80],
     ['author', 'text', 80],
     ['image', 'url', 80],
-    ['releaseDate', 'date', 10],
-    ['__v', 'number', 2]
+    ['releaseDate', 'date', 10]
   ];
   const propertyTarget = target.children[1];
   propertyTarget.textContent = '';
@@ -245,13 +260,14 @@ const addCreate = texts => {
     makeEditable(input);
     const label = property.lastElementChild;
     label.htmlFor = input.id;
-    label.textContent = texts['property_label_' + itemProperty[0]];
+    label.children[0].textContent = texts['property_label_' + itemProperty[0]];
+    errorDestroy(input);
     propertyTarget.appendChild(property);
   }
   specificControlsCreate('add', texts, null, ['add_submit', 'add_cancel']);
   // Create listeners for the created buttons.
   $('#control-add_submit').click(() => {
-    addSubmit();
+    addSubmit(texts);
     return '';
   });
   $('#control-add_cancel').click(() => {
@@ -265,12 +281,17 @@ const addCreate = texts => {
 
 // Define a function that makes the record-detail section editable.
 const detailEditForm = (texts, record) => {
-  const detailPropertySection = document.getElementById('detail').children[1];
-  const detailPropertyDivs = detailPropertySection.children;
+  const detailPropertyDiv
+    = document.getElementById('detail').getElementsByClassName('properties')[0];
+  const detailPropertyDivs = detailPropertyDiv.getElementsByTagName('DIV');
   for (const div of detailPropertyDivs) {
-    makeEditable(div.firstElementChild);
+    const input = div.getElementsByTagName('INPUT')[0];
+    if (input.id !== 'detail___v') {
+      makeEditable(input);
+    }
   }
-  const detailControlSection = document.getElementById('detail').children[2];
+  const detailControlSection
+    = document.getElementById('detail').getElementsByClassName('controls')[0];
   detailControlSection.removeChild(
     document.getElementById('control-detail_edit')
   );
@@ -317,7 +338,7 @@ const detailCreate = (texts, record) => {
     ['releaseDate', 'date', 10],
     ['__v', 'number', 2]
   ];
-  const propertyTarget = target.children[1];
+  const propertyTarget = target.getElementsByClassName('properties')[0];
   propertyTarget.textContent = '';
   for (const itemProperty of itemProperties) {
     const property = document.getElementById('template-2')
@@ -331,7 +352,9 @@ const detailCreate = (texts, record) => {
     input.size = input.maxLength = itemProperty[2];
     const label = property.lastElementChild;
     label.htmlFor = input.id;
-    label.textContent = texts['property_label_' + itemProperty[0]];
+    label.getElementsByClassName('label')[0].textContent
+      = texts['property_label_' + itemProperty[0]];
+    errorDestroy(input);
     propertyTarget.appendChild(property);
   }
   specificControlsCreate('detail', texts, record, [

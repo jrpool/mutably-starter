@@ -42,5 +42,7 @@ window.texts = {
   'legend_detail_submit': 'Make this amendment to this book in the list',
   'legend_detail_version': 'Add these details to the list as a new book',
   'legend_detail_remove': 'Remove this book from the list',
-  'legend_detail_cancel': 'Stop displaying this book’s details'
+  'legend_detail_cancel': 'Stop displaying this book’s details',
+  'invalid': 'Invalid!',
+  'missing': 'Missing!'
 };
