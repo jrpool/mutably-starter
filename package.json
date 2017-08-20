@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["API", "AJAX"],
-  "author": "",
+  "author": "Danielle Gellis and Jonathan Pool",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.17.1",
@@ -23,6 +23,9 @@
     "babel-preset-es2015": ">=6.24.1",
     "babel-register": ">=6.24.1",
     "eslint": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=8.1.2"
   },
   "bugs": {
     "url": "https://github.com/jrpool/mutably-starter.git/issues"
