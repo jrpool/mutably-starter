@@ -30,9 +30,9 @@ The project members have developed 2 versions of this application, exhibiting pa
 
 To use either version of the application, you do not need to install anything. Just visit either of these addresses with a web browser:
 
-- Version 1: `https://mighty-beach-12535.herokuapp.com/1`
+- Version 1: https://mighty-beach-12535.herokuapp.com/1
 
-- Version 2: `https://mighty-beach-12535.herokuapp.com/2`
+- Version 2: https://mighty-beach-12535.herokuapp.com/2
 
 ### Developer Mode
 
