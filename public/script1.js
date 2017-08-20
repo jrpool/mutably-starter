@@ -106,7 +106,10 @@ const listCreate = (texts, data) => {
       target.appendChild(listItem);
     }
   }
-  // Create a listener for these buttons.
+  const controlDiv = document.getElementById('control-list-toggle');
+  controlDiv.firstElementChild.textContent = texts.button_list_hide;
+  controlDiv.lastElementChild.textContent = texts.legend_list_hide;
+// Create a listener for these buttons.
   $('#list').click(event => {
     const id = event.target.id;
     if (id) {
@@ -127,22 +130,22 @@ const listCreate = (texts, data) => {
 };
 
 // Define a function that destroys the list and hides its section.
-const listDestroy = () => {
+const listDestroy = (texts) => {
   const target = document.getElementById('list');
   target.className = 'invisible';
   target.textContent = '[template 1 results]';
+  const controlDiv = document.getElementById('control-list-toggle');
+  controlDiv.firstElementChild.textContent = texts.button_list_show;
+  controlDiv.lastElementChild.textContent = texts.legend_list_show;
 };
 
 // Define a function that toggles the existence and display of the list.
 const listToggle = texts => {
-  const controlDiv = document.getElementById('control-list-toggle');
   if (document.getElementById('list').className === 'invisible') {
     $.ajax('https://mutably.herokuapp.com/books')
     .done(data => {
       window.data = data;
       listCreate(texts, data);
-      controlDiv.firstElementChild.textContent = texts.button_list_hide;
-      controlDiv.lastElementChild.textContent = texts.legend_list_hide;
       return '';
     })
     .fail(err => {
@@ -155,9 +158,7 @@ const listToggle = texts => {
     });
   }
   else {
-    listDestroy();
-    controlDiv.firstElementChild.textContent = texts.button_list_show;
-    controlDiv.lastElementChild.textContent = texts.legend_list_show;
+    listDestroy(texts);
   }
 };
 
@@ -303,7 +304,7 @@ const recordDestroy = () => {
   Define a function that submits an amended record for replacement of an
   existing record in the list.
 */
-const recordAmendSubmit = texts => {
+const amendSubmit = texts => {
   const propertyIDs = ['title', 'author', 'image', 'releaseDate'];
   if (propertyIDs.map(propertyID => {
     const target = document.getElementById('detail_' + propertyID);
@@ -332,7 +333,10 @@ const recordAmendSubmit = texts => {
         image: document.getElementById('detail_image').value,
         releaseDate: document.getElementById('detail_releaseDate').value
       },
-      success: detailDestroy,
+      success: () => {
+        detailDestroy();
+        listDestroy(texts);
+      },
       error: response => {console.log('Error: ' + response.responseText);}
     });
   }
@@ -342,7 +346,7 @@ const recordAmendSubmit = texts => {
   Define a function that submits an amended record for addition to the list
   as a new record.
 */
-const recordVersionSubmit = texts => {
+const versionSubmit = texts => {
   const propertyIDs = ['title', 'author', 'image', 'releaseDate'];
   if (propertyIDs.map(propertyID => {
     const target = document.getElementById('detail_' + propertyID);
@@ -412,12 +416,12 @@ const detailEditForm = (texts, record) => {
     'detail_amend', 'detail_version', 'detail_cancel'
   ]);
   // Create listeners for the created buttons.
-  $('#control-detail_amend').click(event => {
-    recordAmendSubmit(event);
+  $('#control-detail_amend').click(() => {
+    amendSubmit(texts);
     return '';
   });
   $('#control-detail_version').click(() => {
-    recordVersionSubmit(texts);
+    versionSubmit(texts);
     return '';
   });
   $('#control-detail_cancel').click(() => {
