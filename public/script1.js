@@ -189,23 +189,15 @@ const specificControlsCreate = (targetParent, texts, record, actions) => {
   }
 };
 
-// === Add-Record Section === //
-
-// Define a function that destroys and hides the add-record section.
-const addDestroy = () => {
-  const target = document.getElementById('add');
-  target.className = 'invisible';
-  target.children[0].textContent = '[instructions]';
-  target.children[1].textContent = '[template 2 results]';
-  target.children[2].textContent = '[template 3 results]';
-  document.getElementById('control-add').removeAttribute('class');
-};
-
-// Define a function that submits a new record for addition to the list.
-const addSubmit = texts => {
+// Define a function that submits a record to the list.
+const submit = (texts, section, id, queryType) => {
   const propertyIDs = ['title', 'author', 'image', 'releaseDate'];
+  const destroyFns = {
+    'add': addDestroy,
+    'detail': detailDestroy
+  };
   if (propertyIDs.map(propertyID => {
-    const target = document.getElementById('add_' + propertyID);
+    const target = document.getElementById(section + '_' + propertyID);
     if (!target.value) {
       errorAdd(texts, target, 'missing');
       return false;
@@ -220,8 +212,8 @@ const addSubmit = texts => {
     }
   }).every(element => element)) {
     $.ajax({
-      url: 'https://mutably.herokuapp.com/books',
-      type: 'POST',
+      url: 'https://mutably.herokuapp.com/books' + id,
+      type: queryType,
       cache: false,
       data: {
         title: document.getElementById('add_title').value,
@@ -229,10 +221,30 @@ const addSubmit = texts => {
         image: document.getElementById('add_image').value,
         releaseDate: document.getElementById('add_releaseDate').value
       },
-      success: addDestroy,
+      success: () => {
+        destroyFns[section]();
+        listDestroy(texts);
+      },
       error: response => {console.log('Error: ' + response.responseText);}
     });
   }
+};
+
+// === Add-Record Section === //
+
+// Define a function that destroys and hides the add-record section.
+const addDestroy = () => {
+  const target = document.getElementById('add');
+  target.className = 'invisible';
+  target.children[0].textContent = '[instructions]';
+  target.children[1].textContent = '[template 2 results]';
+  target.children[2].textContent = '[template 3 results]';
+  document.getElementById('control-add').removeAttribute('class');
+};
+
+// Define a function that submits a new record for addition to the list.
+const addSubmit = texts => {
+  submit(texts, 'add', '', 'POST');
 };
 
 // Define a function that creates and displays the add-record section.
@@ -305,41 +317,8 @@ const recordDestroy = () => {
   existing record in the list.
 */
 const amendSubmit = texts => {
-  const propertyIDs = ['title', 'author', 'image', 'releaseDate'];
-  if (propertyIDs.map(propertyID => {
-    const target = document.getElementById('detail_' + propertyID);
-    if (!target.value) {
-      errorAdd(texts, target, 'missing');
-      return false;
-    }
-    else if (target.className.includes('invalid')) {
-      errorAdd(texts, target, 'invalid');
-      return false;
-    }
-    else {
-      errorDestroy(target);
-      return true;
-    }
-  }).every(element => element)) {
-    $.ajax({
-      url:
-        'https://mutably.herokuapp.com/books/'
-        + document.getElementById('detail__id').value,
-      type: 'PUT',
-      cache: false,
-      data: {
-        title: document.getElementById('detail_title').value,
-        author: document.getElementById('detail_author').value,
-        image: document.getElementById('detail_image').value,
-        releaseDate: document.getElementById('detail_releaseDate').value
-      },
-      success: () => {
-        detailDestroy();
-        listDestroy(texts);
-      },
-      error: response => {console.log('Error: ' + response.responseText);}
-    });
-  }
+  const id = '/' +  document.getElementById('detail__id').value;
+  submit(texts, 'detail', id, 'PUT');
 };
 
 /*
@@ -347,36 +326,7 @@ const amendSubmit = texts => {
   as a new record.
 */
 const versionSubmit = texts => {
-  const propertyIDs = ['title', 'author', 'image', 'releaseDate'];
-  if (propertyIDs.map(propertyID => {
-    const target = document.getElementById('detail_' + propertyID);
-    if (!target.value) {
-      errorAdd(texts, target, 'missing');
-      return false;
-    }
-    else if (target.className.includes('invalid')) {
-      errorAdd(texts, target, 'invalid');
-      return false;
-    }
-    else {
-      errorDestroy(target);
-      return true;
-    }
-  }).every(element => element)) {
-    $.ajax({
-      url: 'https://mutably.herokuapp.com/books',
-      type: 'POST',
-      cache: false,
-      data: {
-        title: document.getElementById('detail_title').value,
-        author: document.getElementById('detail_author').value,
-        image: document.getElementById('detail_image').value,
-        releaseDate: document.getElementById('detail_releaseDate').value
-      },
-      success: detailDestroy,
-      error: response => {console.log('Error: ' + response.responseText);}
-    });
-  }
+  submit(texts, 'detail', '', 'POST');
 };
 
 // Define a function that submits a request to remove a record from the list.
