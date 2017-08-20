@@ -137,7 +137,7 @@ const listDestroy = () => {
 const listToggle = texts => {
   const controlDiv = document.getElementById('control-list-toggle');
   if (document.getElementById('list').className === 'invisible') {
-    $.ajax('http://mutably.herokuapp.com/books')
+    $.ajax('https://mutably.herokuapp.com/books')
     .done(data => {
       window.data = data;
       listCreate(texts, data);
@@ -219,7 +219,7 @@ const addSubmit = texts => {
     }
   }).every(element => element)) {
     $.ajax({
-      url: 'http://mutably.herokuapp.com/books',
+      url: 'https://mutably.herokuapp.com/books',
       type: 'POST',
       cache: false,
       data: {
@@ -322,7 +322,7 @@ const recordAmendSubmit = texts => {
   }).every(element => element)) {
     $.ajax({
       url:
-        'http://mutably.herokuapp.com/books/'
+        'https://mutably.herokuapp.com/books/'
         + document.getElementById('detail__id').value,
       type: 'PUT',
       cache: false,
@@ -360,7 +360,7 @@ const recordVersionSubmit = texts => {
     }
   }).every(element => element)) {
     $.ajax({
-      url: 'http://mutably.herokuapp.com/books',
+      url: 'https://mutably.herokuapp.com/books',
       type: 'POST',
       cache: false,
       data: {
@@ -379,7 +379,7 @@ const recordVersionSubmit = texts => {
 const recordRemove = () => {
   const recordID = document.getElementById('detail__id').value;
   $.ajax({
-    url: 'http://mutably.herokuapp.com/books/' + recordID,
+    url: 'https://mutably.herokuapp.com/books/' + recordID,
     type: 'DELETE',
     cache: false,
     success: recordDestroy,
