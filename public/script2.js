@@ -1,8 +1,8 @@
 //fix update so that it works with form input
 
 const textInit = () => {
-  document.getElementById('title').textContent = texts.text_title;
-  document.getElementById('intro').innerHTML = texts.text_intro;
+  document.getElementById('title').textContent = texts.title;
+  document.getElementById('intro').innerHTML = texts.intro_main;
 };
 let currentBook;
 
