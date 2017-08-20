@@ -12,6 +12,14 @@ app.get('/', (request, response) => {
   response.render('index1');
 });
 
+app.get('/1', (request, response) => {
+  response.render('index1');
+});
+
+app.get('/2', (request, response) => {
+  response.render('index2');
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
