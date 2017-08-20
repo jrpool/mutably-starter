@@ -1,11 +1,6 @@
 # Mutably Starter
 
 Web application creating, retrieving, updating, and deleting records in a database through its API.
-For goal #383
-
-## To get this project running
-1. `npm install`
-1. `npm start` to run (uses nodemon)
 
 ## Project Members
 
@@ -21,7 +16,7 @@ This application demonstrates the use of the fundamental web languages, HTML, CS
 
 The demonstration takes the form of an interface that manages the user’s interactions with a database of books.
 
-The application fulfills the requirements of the “CRUD Mutably” module in Phase 3 of the [Learners Guild][lg] curriculum.
+The application fulfills the requirements of the “CRUD Mutably” module (Module 383) in Phase 3 of the [Learners Guild][lg] curriculum.
 
 Users of this application can perceive that it illustrates some web application development techniques but does not pretend to provide a realistically rich interface for interaction with a database of books. Real book catalogues assign values to many more properties of their records than this application does. The Mutably books database is, likewise, intended as a simplified model, and this application manipulates all of the properties that the API allows.
 
@@ -30,6 +25,18 @@ Users of this application can perceive that it illustrates some web application 
 The project members have developed 2 versions of this application, exhibiting partially distinct interface-design strategies. Each version contains work by both members. Members Gellis and Pool are the main contributors to version 2 and version 1, respectively. The project members welcome comments on the interface strategies embodied in these versions.
 
 ## Installation and Configuration
+
+### User mode
+
+To use either version of the application, you do not need to install anything. Just visit either of these addresses with a web browser:
+
+- Version 1: `https://mighty-beach-12535.herokuapp.com/1`
+
+- Version 2: `https://mighty-beach-12535.herokuapp.com/2`
+
+### Developer Mode
+
+To examine and further develop this application, follow the instructions below.
 
 0. These instructions presuppose that (1) [npm][npm] is installed.
 
@@ -53,7 +60,7 @@ Make that parent directory your working directory, by executing, for example:
 
     `npm i`
 
-4. To start either version 1 of the application, execute `npm start`. To start version 2, execute `npm run start2`. Notice the different syntaxes for the two versions.
+4. To start version 1 of the application, execute `npm localstart1`. To start version 2, execute `npm run localstart2`.
 
 To access the application while it is running, use a web browser to request this URL:
 

@@ -17,7 +17,7 @@ const hideAllSections = () => {
 const getAll = function() {
   $("#listOfItemsFromAPI").empty();
   hideAllSections();
-  $.ajax('http://mutably.herokuapp.com/books')
+  $.ajax('https://mutably.herokuapp.com/books')
   .done(data=> {
     let bookID;
     data.books.forEach(el=> {
@@ -41,7 +41,7 @@ const getAll = function() {
 
 const addOne = function(title, author, image, date) {
   $.ajax({
-    url: 'http://mutably.herokuapp.com/books',
+    url: 'https://mutably.herokuapp.com/books',
     method: 'post',
     data: {
       title: title,
@@ -64,7 +64,7 @@ const addOne = function(title, author, image, date) {
 
 const getOne = function(id) {
   $("#detail").empty();
-  $.ajax(`http://mutably.herokuapp.com/books/${id}`)
+  $.ajax(`https://mutably.herokuapp.com/books/${id}`)
   .done(bookObject => {
     currentBook = bookObject;
     $("#listOfItemsFromAPI").hide();
@@ -102,7 +102,7 @@ const getOne = function(id) {
 
 const updateOne = function(id, thingToUpdate, replacementValue) {
   $.ajax({
-    url: `http://mutably.herokuapp.com/books/${id}`,
+    url: `https://mutably.herokuapp.com/books/${id}`,
     method: 'get',
   })
   .done(bookFromServerAsObject => {
@@ -112,7 +112,7 @@ const updateOne = function(id, thingToUpdate, replacementValue) {
     if(currentBookAsArrayToCompare.toString() === bookFromServerAsArrayToCompare.toString()) {
       currentBook[thingToUpdate] = replacementValue;
       $.ajax({
-        url: `http://mutably.herokuapp.com/books/${id}`,
+        url: `https://mutably.herokuapp.com/books/${id}`,
         method: 'put',
         data: currentBook
       }).done(data => {
@@ -136,7 +136,7 @@ const updateOne = function(id, thingToUpdate, replacementValue) {
 
 const deleteOne = function(id, title) {
   $.ajax({
-    url: `http://mutably.herokuapp.com/books/${id}`,
+    url: `https://mutably.herokuapp.com/books/${id}`,
     method: 'delete'
   })
   .done(data => {
