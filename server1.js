@@ -9,7 +9,7 @@ app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 
 app.get('/', (request, response) => {
-  response.render('index');
+  response.render('index1');
 });
 
 const port = process.env.PORT || 3000;
