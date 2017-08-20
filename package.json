@@ -6,8 +6,10 @@
   "scripts": {
     "lint":
       "eslint ./server.js ./public/script.js ./views/text/*.js; exit 0",
-    "start": "nodemon server1.js",
-    "start2": "nodemon server2.js",
+    "start": "node server1.js",
+    "star2": "node server2.js",
+    "localstart1": "nodemon server1.js",
+    "localstart2": "nodemon server2.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["API", "AJAX"],
